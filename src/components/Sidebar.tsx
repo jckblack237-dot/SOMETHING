@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { LayoutGrid, PackageSearch, Store, Tag } from 'lucide-react';
 
-export type View = 'overview' | 'products' | 'stores';
+export type View = 'home' | 'overview' | 'products' | 'stores';
 
 const NAV: { id: View; label: string; icon: typeof LayoutGrid }[] = [
   { id: 'overview', label: 'Overview', icon: LayoutGrid },
@@ -16,7 +16,7 @@ export default function Sidebar({ view, onNavigate }: { view: View; onNavigate: 
         href="#"
         onClick={(e) => {
           e.preventDefault();
-          onNavigate('overview');
+          onNavigate('home');
         }}
         aria-label="Agu home"
         className="mb-8 flex h-10 w-10 items-center justify-center rounded-xl"

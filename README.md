@@ -8,6 +8,10 @@ shopping websites and Facebook shop pages, priced in Maldivian Rufiyaa (MVR).
 
 ## Features
 
+- **Landing page** — dark, editorial front door in the style of premium
+  Framer templates: full-height hero with a live comparison preview,
+  numbered sections, seller showcase, animated stats, reviews and an FAQ
+  accordion, all with scroll-triggered reveals.
 - **Overview dashboard** — KPI stat tiles with sparklines (products tracked,
   average saving, price drops, market price index), per-store price comparison
   bars with the best price highlighted, a saving-headroom donut (click a slice
@@ -71,7 +75,7 @@ src/
 │   ├── chart.ts           # SVG chart geometry helpers
 │   └── format.ts          # MVR / percentage formatting
 ├── components/            # charts, cards, sidebar, top bar, UI primitives
-├── views/                 # Overview, Products, Stores
+├── views/                 # Landing, Overview, Products, Sellers
 └── App.tsx                # state + layout
 ```
 

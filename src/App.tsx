@@ -6,13 +6,14 @@ import { filterProducts, sellersFor } from './lib/stats';
 import Preloader from './components/Preloader';
 import Sidebar, { type View } from './components/Sidebar';
 import TopBar from './components/TopBar';
+import Landing from './views/Landing';
 import Overview from './views/Overview';
 import ProductsView from './views/ProductsView';
 import StoresView from './views/StoresView';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<View>('overview');
+  const [view, setView] = useState<View>('home');
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<Category | 'all'>('all');
   const [source, setSource] = useState<SourceType | 'all'>('all');
@@ -33,6 +34,15 @@ export default function App() {
     setView('overview');
     window.scrollTo({ top: 0 });
   };
+
+  if (view === 'home') {
+    return (
+      <MotionConfig reducedMotion="user">
+        <AnimatePresence>{loading && <Preloader />}</AnimatePresence>
+        <Landing onOpen={() => setView('overview')} />
+      </MotionConfig>
+    );
+  }
 
   return (
     <MotionConfig reducedMotion="user">
