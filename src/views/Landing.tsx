@@ -116,7 +116,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
   ];
 
   return (
-    <div className="bg-page">
+    <div className="overflow-x-clip bg-page">
       {/* ——— Nav ——— */}
       <header className="fixed inset-x-0 top-0 z-40 border-b border-edge bg-page/80 backdrop-blur-md">
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">

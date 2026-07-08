@@ -62,6 +62,7 @@ Other scripts:
 npm run build      # type-check and build for production (dist/)
 npm run preview    # serve the production build locally
 npm run lint       # run ESLint
+npm test           # run the vitest unit suite
 ```
 
 ## Project structure

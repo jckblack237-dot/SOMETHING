@@ -26,8 +26,8 @@ export default function CompareBars({ product, sellerIds }: { product: Product; 
         {rows.map(({ store, price }, i) => {
           const best = i === 0;
           return (
-            <li key={store.id} className="flex items-center gap-2.5">
-              <span className="flex w-36 shrink-0 items-center gap-1.5">
+            <li key={store.id} className="flex items-center gap-2 sm:gap-2.5">
+              <span className="flex w-24 shrink-0 items-center gap-1.5 sm:w-36">
                 <SourceBadge source={store.source} iconOnly />
                 {store.url ? (
                   <a
@@ -52,13 +52,14 @@ export default function CompareBars({ product, sellerIds }: { product: Product; 
                   style={{ background: best ? 'var(--color-s1)' : 'var(--color-dim)' }}
                 />
               </div>
-              <span className="w-20 shrink-0 text-right text-sm font-medium tabular-nums text-ink">
+              <span className="w-14 shrink-0 text-right text-xs font-medium tabular-nums text-ink sm:w-20 sm:text-sm">
                 {num(price)}
               </span>
-              <span className="w-20 shrink-0">
+              <span className="w-4 shrink-0 sm:w-20">
                 {best && (
                   <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: 'var(--color-good)' }}>
-                    <BadgeCheck size={13} /> Best price
+                    <BadgeCheck size={13} className="shrink-0" />
+                    <span className="hidden sm:inline">Best price</span>
                   </span>
                 )}
               </span>

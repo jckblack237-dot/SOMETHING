@@ -61,14 +61,12 @@ export default function App() {
             onSource={setSource}
           />
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={view}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            >
+          <motion.div
+            key={view}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          >
               {view === 'overview' && (
                 <Overview
                   products={filtered}
@@ -91,8 +89,7 @@ export default function App() {
                 />
               )}
               {view === 'stores' && <StoresView source={source} />}
-            </motion.div>
-          </AnimatePresence>
+          </motion.div>
 
           <footer className="pb-4 pt-6 text-center text-xs text-ink-3">
             Agu · Maldives price watch — comparing shops, shopping websites & Facebook pages · demo data, prices indicative in MVR
