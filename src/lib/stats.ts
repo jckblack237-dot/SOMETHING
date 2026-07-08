@@ -1,5 +1,14 @@
-import { products, stores, CATEGORIES, type Category, type Product, type Store } from '../data/catalog';
+import { products, stores, CATEGORIES, type Category, type Product, type SourceType, type Store } from '../data/catalog';
 import { currentStats, priceHistory } from './history';
+
+/** Seller ids matching a source filter ('all' = every seller). */
+export function sellersFor(source: SourceType | 'all'): string[] {
+  return stores.filter((s) => source === 'all' || s.source === source).map((s) => s.id);
+}
+
+export function sellerCount(product: Product, sellerIds: string[]): number {
+  return sellerIds.filter((id) => product.prices[id] != null).length;
+}
 
 export interface Saving {
   abs: number;
@@ -9,39 +18,43 @@ export interface Saving {
   best: number;
 }
 
-export function saving(product: Product): Saving {
-  const { low, high } = currentStats(product);
-  const bestId = Object.entries(product.prices).find(([, p]) => p === low)![0];
+export function saving(product: Product, sellerIds?: string[]): Saving {
+  const ids = sellerIds ?? stores.map((s) => s.id);
+  const { low, high } = currentStats(product, ids);
+  const bestId = ids.find((id) => product.prices[id] === low)!;
   return {
     abs: high - low,
-    pct: ((high - low) / high) * 100,
+    pct: high > 0 ? ((high - low) / high) * 100 : 0,
     bestStore: stores.find((s) => s.id === bestId)!,
     worst: high,
     best: low,
   };
 }
 
-export function filterProducts(category: Category | 'all', query: string): Product[] {
+export function filterProducts(category: Category | 'all', query: string, sellerIds?: string[]): Product[] {
   const q = query.trim().toLowerCase();
   return products.filter(
     (p) =>
       (category === 'all' || p.category === category) &&
-      (q === '' || `${p.brand} ${p.name}`.toLowerCase().includes(q)),
+      (q === '' || `${p.brand} ${p.name}`.toLowerCase().includes(q)) &&
+      (!sellerIds || sellerCount(p, sellerIds) > 0),
   );
 }
 
 /** Mean % saving across a product set, per year-history point (12 values). */
-export function savingsTrend(set: Product[]): number[] {
+export function savingsTrend(set: Product[], sellerIds?: string[]): number[] {
   if (set.length === 0) return [];
-  const per = set.map((p) => priceHistory(p, 'year').map((h) => ((h.high - h.low) / h.high) * 100));
+  const per = set.map((p) =>
+    priceHistory(p, 'year', sellerIds).map((h) => (h.high > 0 ? ((h.high - h.low) / h.high) * 100 : 0)),
+  );
   return per[0].map((_, i) => per.reduce((s, arr) => s + arr[i], 0) / per.length);
 }
 
 /** Market price index (first year-point = 100) across a product set. */
-export function marketIndex(set: Product[]): number[] {
+export function marketIndex(set: Product[], sellerIds?: string[]): number[] {
   if (set.length === 0) return [];
   const per = set.map((p) => {
-    const h = priceHistory(p, 'year');
+    const h = priceHistory(p, 'year', sellerIds);
     return h.map((pt) => (pt.avg / h[0].avg) * 100);
   });
   return per[0].map((_, i) => per.reduce((s, arr) => s + arr[i], 0) / per.length);
@@ -53,10 +66,10 @@ export interface Drop {
 }
 
 /** Products whose market average fell over the last month, steepest first. */
-export function recentDrops(set: Product[]): Drop[] {
+export function recentDrops(set: Product[], sellerIds?: string[]): Drop[] {
   return set
     .map((product) => {
-      const h = priceHistory(product, 'month');
+      const h = priceHistory(product, 'month', sellerIds);
       return { product, changePct: ((h[h.length - 1].avg - h[0].avg) / h[0].avg) * 100 };
     })
     .filter((d) => d.changePct < 0)
@@ -64,16 +77,17 @@ export function recentDrops(set: Product[]): Drop[] {
 }
 
 /** Per-point count of products cheaper than at the previous month point. */
-export function dropsTrend(set: Product[]): number[] {
-  const per = set.map((p) => priceHistory(p, 'month').map((h) => h.avg));
+export function dropsTrend(set: Product[], sellerIds?: string[]): number[] {
+  const per = set.map((p) => priceHistory(p, 'month', sellerIds).map((h) => h.avg));
   if (per.length === 0) return [];
   return per[0].map((_, i) =>
     i === 0 ? 0 : per.reduce((s, arr) => s + (arr[i] < arr[i - 1] ? 1 : 0), 0),
   );
 }
 
-export function storesCarrying(set: Product[]): number {
-  return stores.filter((s) => set.some((p) => p.prices[s.id] != null)).length;
+export function storesCarrying(set: Product[], sellerIds?: string[]): number {
+  const ids = sellerIds ?? stores.map((s) => s.id);
+  return ids.filter((id) => set.some((p) => p.prices[id] != null)).length;
 }
 
 export interface StoreWins {
@@ -81,14 +95,17 @@ export interface StoreWins {
   wins: number;
 }
 
-export function bestPriceWins(set: Product[]): StoreWins[] {
-  return stores.map((store) => ({
-    store,
-    wins: set.filter((p) => {
-      const price = p.prices[store.id];
-      return price != null && price === currentStats(p).low;
-    }).length,
-  }));
+export function bestPriceWins(set: Product[], sellerIds?: string[]): StoreWins[] {
+  const ids = sellerIds ?? stores.map((s) => s.id);
+  return stores
+    .filter((s) => ids.includes(s.id))
+    .map((store) => ({
+      store,
+      wins: set.filter((p) => {
+        const price = p.prices[store.id];
+        return price != null && price === currentStats(p, ids).low;
+      }).length,
+    }));
 }
 
 export interface CategorySlice {
@@ -97,14 +114,14 @@ export interface CategorySlice {
   total: number;
 }
 
-/** MVR of headroom (highest − lowest shelf price) available per category. */
-export function savingsByCategory(): CategorySlice[] {
+/** MVR of headroom (highest − lowest listed price) available per category. */
+export function savingsByCategory(sellerIds?: string[]): CategorySlice[] {
   return CATEGORIES.map(({ id, label }) => ({
     category: id,
     label,
     total: products
-      .filter((p) => p.category === id)
-      .reduce((s, p) => s + saving(p).abs, 0),
+      .filter((p) => p.category === id && (!sellerIds || sellerCount(p, sellerIds) > 0))
+      .reduce((s, p) => s + saving(p, sellerIds).abs, 0),
   }));
 }
 
@@ -112,22 +129,24 @@ export interface StoreProfile {
   store: Store;
   carried: number;
   wins: number;
-  /** Mean of (store price ÷ market average) × 100 across carried products. */
+  /** Mean of (seller price ÷ market average) × 100 across carried products. */
   index: number;
   cheapestFor: Product[];
 }
 
-export function storeProfiles(): StoreProfile[] {
-  return stores.map((store) => {
-    const carried = products.filter((p) => p.prices[store.id] != null);
-    const ratios = carried.map((p) => (p.prices[store.id]! / currentStats(p).avg) * 100);
-    const cheapestFor = carried.filter((p) => p.prices[store.id] === currentStats(p).low);
-    return {
-      store,
-      carried: carried.length,
-      wins: cheapestFor.length,
-      index: ratios.reduce((s, r) => s + r, 0) / Math.max(ratios.length, 1),
-      cheapestFor,
-    };
-  });
+export function storeProfiles(source: SourceType | 'all' = 'all'): StoreProfile[] {
+  return stores
+    .filter((s) => source === 'all' || s.source === source)
+    .map((store) => {
+      const carried = products.filter((p) => p.prices[store.id] != null);
+      const ratios = carried.map((p) => (p.prices[store.id]! / currentStats(p).avg) * 100);
+      const cheapestFor = carried.filter((p) => p.prices[store.id] === currentStats(p).low);
+      return {
+        store,
+        carried: carried.length,
+        wins: cheapestFor.length,
+        index: ratios.reduce((s, r) => s + r, 0) / Math.max(ratios.length, 1),
+        cheapestFor,
+      };
+    });
 }

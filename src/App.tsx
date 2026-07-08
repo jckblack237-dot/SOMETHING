@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
-import type { Category } from './data/catalog';
+import type { Category, SourceType } from './data/catalog';
 import type { Range } from './lib/history';
-import { filterProducts } from './lib/stats';
+import { filterProducts, sellersFor } from './lib/stats';
 import Preloader from './components/Preloader';
 import Sidebar, { type View } from './components/Sidebar';
 import TopBar from './components/TopBar';
@@ -15,6 +15,7 @@ export default function App() {
   const [view, setView] = useState<View>('overview');
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<Category | 'all'>('all');
+  const [source, setSource] = useState<SourceType | 'all'>('all');
   const [selectedId, setSelectedId] = useState<string | null>('philips-led4');
   const [range, setRange] = useState<Range>('month');
 
@@ -23,7 +24,8 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const filtered = filterProducts(category, query);
+  const sellerIds = useMemo(() => sellersFor(source), [source]);
+  const filtered = filterProducts(category, query, sellerIds);
   const selected = filtered.find((p) => p.id === selectedId) ?? filtered[0] ?? null;
 
   const viewTrend = (id: string) => {
@@ -40,7 +42,14 @@ export default function App() {
 
       <main className="ml-16 min-h-screen">
         <div className="mx-auto max-w-[1320px] space-y-6 px-4 py-6 sm:px-6 lg:px-8">
-          <TopBar query={query} onQuery={setQuery} category={category} onCategory={setCategory} />
+          <TopBar
+            query={query}
+            onQuery={setQuery}
+            category={category}
+            onCategory={setCategory}
+            source={source}
+            onSource={setSource}
+          />
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -53,6 +62,7 @@ export default function App() {
               {view === 'overview' && (
                 <Overview
                   products={filtered}
+                  sellerIds={sellerIds}
                   selected={selected}
                   onSelect={setSelectedId}
                   range={range}
@@ -64,17 +74,18 @@ export default function App() {
               {view === 'products' && (
                 <ProductsView
                   products={filtered}
+                  sellerIds={sellerIds}
                   category={category}
                   onCategory={setCategory}
                   onViewTrend={viewTrend}
                 />
               )}
-              {view === 'stores' && <StoresView />}
+              {view === 'stores' && <StoresView source={source} />}
             </motion.div>
           </AnimatePresence>
 
           <footer className="pb-4 pt-6 text-center text-xs text-ink-3">
-            Agu · Maldives price watch — demo data, prices indicative in MVR
+            Agu · Maldives price watch — comparing shops, shopping websites & Facebook pages · demo data, prices indicative in MVR
           </footer>
         </div>
       </main>

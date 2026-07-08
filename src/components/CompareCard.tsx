@@ -11,16 +11,18 @@ export default function CompareCard({
   products,
   selected,
   onSelect,
+  sellerIds,
 }: {
   products: Product[];
   selected: Product | null;
   onSelect: (id: string) => void;
+  sellerIds?: string[];
 }) {
   return (
     <div className="card p-5">
       <CardHeader
         title="Compare prices"
-        subtitle={`${products.length} item${products.length === 1 ? '' : 's'} in view — pick one to compare stores`}
+        subtitle={`${products.length} item${products.length === 1 ? '' : 's'} in view — pick one to compare sellers`}
       />
 
       {products.length === 0 || !selected ? (
@@ -55,7 +57,7 @@ export default function CompareCard({
                       <span className="block text-[11px] text-ink-3">{p.brand}</span>
                     </span>
                     <span className="shrink-0 text-xs font-medium tabular-nums text-ink-2">
-                      {mvr(saving(p).best, true)}
+                      {mvr(saving(p, sellerIds).best, true)}
                     </span>
                   </button>
                 </li>
@@ -82,11 +84,11 @@ export default function CompareCard({
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-2xl font-semibold leading-none text-ink">{mvr(saving(selected).best)}</p>
+                  <p className="text-2xl font-semibold leading-none text-ink">{mvr(saving(selected, sellerIds).best)}</p>
                   <p className="mt-1 text-[11px] text-ink-3">best price today</p>
                 </div>
               </div>
-              <CompareBars product={selected} />
+              <CompareBars product={selected} sellerIds={sellerIds} />
             </motion.div>
           </AnimatePresence>
         </div>

@@ -14,33 +14,40 @@ const GAP = 2.4 / R; // ≈2px surface gap at radius R, in radians
 export default function DonutCard({
   activeCategory,
   onSelect,
+  sellerIds,
 }: {
   activeCategory: Category | 'all';
   onSelect: (c: Category | 'all') => void;
+  sellerIds?: string[];
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [tip, setTip] = useState<{ x: number; y: number; i: number } | null>(null);
 
   const slices = useMemo(() => {
-    const data = savingsByCategory();
+    const data = savingsByCategory(sellerIds);
     const total = data.reduce((s, d) => s + d.total, 0);
     let angle = 0;
     return {
       total,
-      arcs: data.map((d) => {
-        const sweep = (d.total / total) * Math.PI * 2;
-        const arc = { ...d, share: (d.total / total) * 100, a0: angle + GAP / 2, a1: angle + sweep - GAP / 2 };
-        angle += sweep;
-        return arc;
-      }),
+      // Empty categories stay in the legend but draw no arc (a zero sweep would
+      // render as a stray hairline once the pad gap is subtracted).
+      arcs: data
+        .filter((d) => d.total > 0)
+        .map((d) => {
+          const sweep = (d.total / total) * Math.PI * 2;
+          const arc = { ...d, share: (d.total / total) * 100, a0: angle + GAP / 2, a1: angle + sweep - GAP / 2 };
+          angle += sweep;
+          return arc;
+        }),
+      legend: data.map((d) => ({ ...d, share: total > 0 ? (d.total / total) * 100 : 0 })),
     };
-  }, []);
+  }, [sellerIds]);
 
   return (
     <div className="card flex flex-col p-5">
       <CardHeader
         title="Saving headroom"
-        subtitle="Highest minus lowest shelf price, by category — tap a slice to filter"
+        subtitle="Highest minus lowest listed price, by category — tap a slice to filter"
       />
 
       <div ref={wrapRef} className="relative mx-auto" style={{ width: SIZE, height: SIZE }}>
@@ -108,7 +115,7 @@ export default function DonutCard({
       </div>
 
       <ul className="mt-5 space-y-2.5">
-        {slices.arcs.map((s) => (
+        {slices.legend.map((s) => (
           <li key={s.category} className="flex items-center gap-2.5 text-sm">
             <span className="h-2.5 w-2.5 rounded-sm" style={{ background: CATEGORY_COLOR[s.category] }} aria-hidden />
             <span className="text-ink-2">{s.label}</span>

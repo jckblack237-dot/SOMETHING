@@ -27,6 +27,7 @@ function rampSpark(end: number, floor: number): number[] {
 
 export default function Overview({
   products,
+  sellerIds,
   selected,
   onSelect,
   range,
@@ -35,6 +36,7 @@ export default function Overview({
   onCategory,
 }: {
   products: Product[];
+  sellerIds: string[];
   selected: Product | null;
   onSelect: (id: string) => void;
   range: Range;
@@ -44,10 +46,10 @@ export default function Overview({
 }) {
   const tiles = useMemo<StatTileProps[]>(() => {
     if (products.length === 0) return [];
-    const savings = savingsTrend(products);
-    const index = marketIndex(products);
-    const drops = dropsTrend(products);
-    const storeCount = storesCarrying(products);
+    const savings = savingsTrend(products, sellerIds);
+    const index = marketIndex(products, sellerIds);
+    const drops = dropsTrend(products, sellerIds);
+    const storeCount = storesCarrying(products, sellerIds);
     const int = (v: number) => num(v);
     return [
       {
@@ -57,7 +59,7 @@ export default function Overview({
         spark: rampSpark(products.length, Math.max(1, products.length * 0.6)),
       },
       {
-        label: 'Stores compared',
+        label: 'Sellers compared',
         value: storeCount,
         format: int,
         spark: rampSpark(storeCount, Math.max(1, storeCount - 2)),
@@ -74,7 +76,7 @@ export default function Overview({
       },
       {
         label: 'Price drops · 30 days',
-        value: recentDrops(products).length,
+        value: recentDrops(products, sellerIds).length,
         format: int,
         delta: drops[drops.length - 1] - drops[drops.length - 2],
         deltaFormat: (v) => `${num(Math.abs(v))}`,
@@ -93,7 +95,7 @@ export default function Overview({
         spark: index,
       },
     ];
-  }, [products]);
+  }, [products, sellerIds]);
 
   return (
     <div className="space-y-6">
@@ -115,17 +117,17 @@ export default function Overview({
 
       <div className="grid gap-6 xl:grid-cols-3">
         <div className="xl:col-span-2">
-          <CompareCard products={products} selected={selected} onSelect={onSelect} />
+          <CompareCard products={products} sellerIds={sellerIds} selected={selected} onSelect={onSelect} />
         </div>
-        <DonutCard activeCategory={category} onSelect={onCategory} />
+        <DonutCard activeCategory={category} onSelect={onCategory} sellerIds={sellerIds} />
       </div>
 
       {selected && (
         <div className="grid gap-6 xl:grid-cols-3">
           <div className="xl:col-span-2">
-            <PriceTrendCard product={selected} range={range} onRangeChange={onRange} />
+            <PriceTrendCard product={selected} range={range} onRangeChange={onRange} sellerIds={sellerIds} />
           </div>
-          <StoreWinsCard products={products} />
+          <StoreWinsCard products={products} sellerIds={sellerIds} />
         </div>
       )}
     </div>

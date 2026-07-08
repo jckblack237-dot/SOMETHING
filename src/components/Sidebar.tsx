@@ -6,7 +6,7 @@ export type View = 'overview' | 'products' | 'stores';
 const NAV: { id: View; label: string; icon: typeof LayoutGrid }[] = [
   { id: 'overview', label: 'Overview', icon: LayoutGrid },
   { id: 'products', label: 'Products', icon: PackageSearch },
-  { id: 'stores', label: 'Stores', icon: Store },
+  { id: 'stores', label: 'Sellers', icon: Store },
 ];
 
 export default function Sidebar({ view, onNavigate }: { view: View; onNavigate: (v: View) => void }) {

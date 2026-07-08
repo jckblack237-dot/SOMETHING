@@ -1,13 +1,34 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useMotionValueEvent, useSpring } from 'framer-motion';
-import { Check, ChevronDown } from 'lucide-react';
-import type { Category } from '../data/catalog';
+import { Check, ChevronDown, Facebook, Globe, Store as StoreIcon } from 'lucide-react';
+import type { Category, SourceType } from '../data/catalog';
+import { SOURCE_LABEL } from '../data/catalog';
 
 export const CATEGORY_COLOR: Record<Category, string> = {
   electronics: 'var(--color-s1)',
   groceries: 'var(--color-s2)',
   household: 'var(--color-s3)',
 };
+
+const SOURCE_ICON: Record<SourceType, typeof Globe> = {
+  store: StoreIcon,
+  online: Globe,
+  facebook: Facebook,
+};
+
+/** Small chip identifying where a seller lists prices: shop, website or Facebook page. */
+export function SourceBadge({ source, iconOnly = false }: { source: SourceType; iconOnly?: boolean }) {
+  const Icon = SOURCE_ICON[source];
+  if (iconOnly) {
+    return <Icon size={12} className="shrink-0 text-ink-3" aria-label={SOURCE_LABEL[source]} />;
+  }
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-lg border border-edge px-2 py-1 text-[11px] text-ink-2">
+      <Icon size={11} className="text-ink-3" />
+      {SOURCE_LABEL[source]}
+    </span>
+  );
+}
 
 export function CategoryDot({ category, size = 8 }: { category: Category; size?: number }) {
   return (

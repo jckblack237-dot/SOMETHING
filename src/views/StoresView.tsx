@@ -1,21 +1,25 @@
 import { motion } from 'framer-motion';
-import { MapPin } from 'lucide-react';
+import { ExternalLink, MapPin } from 'lucide-react';
+import type { SourceType } from '../data/catalog';
 import { storeProfiles } from '../lib/stats';
 import { pct } from '../lib/format';
+import { SourceBadge } from '../components/ui';
 
 /** Map a price index (lower = cheaper) onto a 90–110 meter scale. */
 function meterWidth(index: number): number {
   return Math.max(4, Math.min(100, ((index - 90) / 20) * 100));
 }
 
-export default function StoresView() {
-  const profiles = storeProfiles();
+export default function StoresView({ source }: { source: SourceType | 'all' }) {
+  const profiles = storeProfiles(source);
 
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">Stores</h1>
-        <p className="text-sm text-ink-3">{profiles.length} local stores tracked</p>
+        <h1 className="text-3xl font-semibold tracking-tight text-ink">Sellers</h1>
+        <p className="text-sm text-ink-3">
+          {profiles.length} seller{profiles.length === 1 ? '' : 's'} — shops, websites & Facebook pages
+        </p>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -41,10 +45,25 @@ export default function StoresView() {
                 </span>
               </div>
 
+              <div className="flex flex-wrap items-center gap-2">
+                <SourceBadge source={p.store.source} />
+                {p.store.url && (
+                  <a
+                    href={p.store.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-edge px-2 py-1 text-[11px] font-medium text-ink-2 transition-colors hover:border-s1/50 hover:text-ink"
+                  >
+                    {p.store.source === 'facebook' ? 'Open Facebook page' : 'Visit website'}
+                    <ExternalLink size={10} className="text-ink-3" />
+                  </a>
+                )}
+              </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-xl bg-inset p-3">
                   <p className="text-xl font-semibold text-ink">{p.carried}</p>
-                  <p className="text-[11px] text-ink-3">products carried</p>
+                  <p className="text-[11px] text-ink-3">products listed</p>
                 </div>
                 <div className="rounded-xl bg-inset p-3">
                   <p className="text-xl font-semibold text-ink">{p.wins}</p>

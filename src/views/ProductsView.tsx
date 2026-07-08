@@ -18,11 +18,13 @@ const SORTS: { value: Sort; label: string }[] = [
 
 export default function ProductsView({
   products,
+  sellerIds,
   category,
   onCategory,
   onViewTrend,
 }: {
   products: Product[];
+  sellerIds: string[];
   category: Category | 'all';
   onCategory: (c: Category | 'all') => void;
   onViewTrend: (id: string) => void;
@@ -32,11 +34,11 @@ export default function ProductsView({
 
   const sorted = useMemo(() => {
     const list = [...products];
-    if (sort === 'saving') list.sort((a, b) => saving(b).pct - saving(a).pct);
-    else if (sort === 'price') list.sort((a, b) => saving(a).best - saving(b).best);
+    if (sort === 'saving') list.sort((a, b) => saving(b, sellerIds).pct - saving(a, sellerIds).pct);
+    else if (sort === 'price') list.sort((a, b) => saving(a, sellerIds).best - saving(b, sellerIds).best);
     else list.sort((a, b) => `${a.brand} ${a.name}`.localeCompare(`${b.brand} ${b.name}`));
     return list;
-  }, [products, sort]);
+  }, [products, sort, sellerIds]);
 
   const chips: { value: Category | 'all'; label: string }[] = [
     { value: 'all', label: 'All' },
@@ -96,7 +98,7 @@ export default function ProductsView({
 
         <AnimatePresence initial={false}>
           {sorted.map((p) => {
-            const s = saving(p);
+            const s = saving(p, sellerIds);
             const expanded = open === p.id;
             return (
               <motion.div
@@ -131,7 +133,7 @@ export default function ProductsView({
                     {pct(s.pct)}
                   </span>
                   <span className="hidden justify-end md:flex">
-                    <Sparkline data={avgTrend(p)} width={84} height={30} />
+                    <Sparkline data={avgTrend(p, sellerIds)} width={84} height={30} />
                   </span>
                   <span className="flex justify-end">
                     <ChevronDown
@@ -152,7 +154,7 @@ export default function ProductsView({
                     >
                       <div className="border-t border-line bg-inset/50 px-5 py-5">
                         <div className="mx-auto max-w-2xl">
-                          <CompareBars product={p} />
+                          <CompareBars product={p} sellerIds={sellerIds} />
                           <button
                             onClick={() => onViewTrend(p.id)}
                             className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-s1 px-3.5 py-2 text-xs font-semibold text-page transition-transform hover:scale-[1.03] active:scale-95"

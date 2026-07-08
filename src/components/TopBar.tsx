@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Bell, Search } from 'lucide-react';
-import { products, type Category } from '../data/catalog';
+import { products, type Category, type SourceType } from '../data/catalog';
 import { recentDrops } from '../lib/stats';
 import { signedPct } from '../lib/format';
 import { Delta, Dropdown } from './ui';
@@ -13,16 +13,27 @@ const CATEGORY_OPTIONS: { value: Category | 'all'; label: string }[] = [
   { value: 'household', label: 'Household' },
 ];
 
+const SOURCE_OPTIONS: { value: SourceType | 'all'; label: string }[] = [
+  { value: 'all', label: 'All sellers' },
+  { value: 'store', label: 'In-store' },
+  { value: 'online', label: 'Online shops' },
+  { value: 'facebook', label: 'Facebook pages' },
+];
+
 export default function TopBar({
   query,
   onQuery,
   category,
   onCategory,
+  source,
+  onSource,
 }: {
   query: string;
   onQuery: (q: string) => void;
   category: Category | 'all';
   onCategory: (c: Category | 'all') => void;
+  source: SourceType | 'all';
+  onSource: (s: SourceType | 'all') => void;
 }) {
   const [bellOpen, setBellOpen] = useState(false);
   const bellRef = useRef<HTMLDivElement>(null);
@@ -43,21 +54,20 @@ export default function TopBar({
   }, [bellOpen]);
 
   return (
-    <header className="flex items-center gap-3">
-      <div className="flex min-w-0 flex-1 items-center gap-3 sm:max-w-md">
-        <div className="relative min-w-0 flex-1">
-          <Search size={15} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-3" />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => onQuery(e.target.value)}
-            placeholder="Search products or brands…"
-            aria-label="Search products"
-            className="w-full rounded-xl border border-edge bg-surface py-2 pl-10 pr-3.5 text-sm text-ink placeholder:text-ink-3 focus:border-s1/60 focus:outline-none"
-          />
-        </div>
-        <Dropdown value={category} options={CATEGORY_OPTIONS} onChange={onCategory} label="Filter by category" />
+    <header className="flex flex-wrap items-center gap-3">
+      <div className="relative min-w-0 flex-1 basis-56 sm:max-w-xs">
+        <Search size={15} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-3" />
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => onQuery(e.target.value)}
+          placeholder="Search products or brands…"
+          aria-label="Search products"
+          className="w-full rounded-xl border border-edge bg-surface py-2 pl-10 pr-3.5 text-sm text-ink placeholder:text-ink-3 focus:border-s1/60 focus:outline-none"
+        />
       </div>
+      <Dropdown value={category} options={CATEGORY_OPTIONS} onChange={onCategory} label="Filter by category" />
+      <Dropdown value={source} options={SOURCE_OPTIONS} onChange={onSource} label="Filter by seller type" />
 
       <div className="ml-auto flex items-center gap-3">
         <div ref={bellRef} className="relative">

@@ -1,5 +1,8 @@
 export type Category = 'electronics' | 'groceries' | 'household';
 
+/** Where a seller lists their prices: a physical shop, a shopping website, or a Facebook page. */
+export type SourceType = 'store' | 'online' | 'facebook';
+
 export interface Store {
   id: string;
   name: string;
@@ -7,6 +10,9 @@ export interface Store {
   short: string;
   area: string;
   tagline: string;
+  source: SourceType;
+  /** Website or Facebook page, when the seller has one. */
+  url?: string;
 }
 
 export interface Product {
@@ -15,7 +21,7 @@ export interface Product {
   brand: string;
   category: Category;
   unit: string;
-  /** Current shelf price in MVR per store — null when the store doesn't carry it. */
+  /** Current listed price in MVR per seller — null when the seller doesn't carry it. */
   prices: Record<string, number | null>;
 }
 
@@ -31,13 +37,26 @@ export const CATEGORY_LABEL: Record<Category, string> = {
   household: 'Household',
 };
 
+export const SOURCE_LABEL: Record<SourceType, string> = {
+  store: 'In-store',
+  online: 'Online shop',
+  facebook: 'Facebook page',
+};
+
 export const stores: Store[] = [
-  { id: 'sto', name: 'STO Supermart', short: 'STO', area: 'Malé', tagline: 'State trading staples & appliances' },
-  { id: 'agora', name: 'Agora Central', short: 'Agora', area: 'Malé', tagline: 'Neighbourhood supermarket chain' },
-  { id: 'redwave', name: 'Redwave Mega', short: 'Redwave', area: 'Hulhumalé', tagline: 'Big-box groceries & electronics' },
-  { id: 'villamart', name: 'VillaMart', short: 'Villa', area: 'Malé', tagline: 'Fresh groceries & daily essentials' },
-  { id: 'sonee', name: 'Sonee Hardware', short: 'Sonee', area: 'Malé', tagline: 'Hardware, tools & home fittings' },
-  { id: 'damas', name: 'Damas Electronics', short: 'Damas', area: 'Malé', tagline: 'Phones, audio & home tech' },
+  // ——— Physical shops (some also sell online) ———
+  { id: 'sto', name: 'STO Supermart', short: 'STO', area: 'Malé', tagline: 'State trading staples & appliances', source: 'store', url: 'https://sto.mv' },
+  { id: 'agora', name: 'Agora Central', short: 'Agora', area: 'Malé', tagline: 'Neighbourhood supermarket chain', source: 'store' },
+  { id: 'redwave', name: 'Redwave Mega', short: 'Redwave', area: 'Hulhumalé', tagline: 'Big-box groceries & electronics', source: 'store', url: 'https://redwave.mv' },
+  { id: 'villamart', name: 'VillaMart', short: 'Villa', area: 'Malé', tagline: 'Fresh groceries & daily essentials', source: 'store', url: 'https://villamart.mv' },
+  { id: 'sonee', name: 'Sonee Hardware', short: 'Sonee', area: 'Malé', tagline: 'Hardware, tools & home fittings', source: 'store', url: 'https://sonee.com.mv' },
+  { id: 'damas', name: 'Damas Electronics', short: 'Damas', area: 'Malé', tagline: 'Phones, audio & home tech', source: 'store', url: 'https://damas.mv' },
+  // ——— Shopping websites ———
+  { id: 'esto', name: 'eSTO.mv', short: 'eSTO', area: 'Online', tagline: 'STO’s official online store', source: 'online', url: 'https://esto.mv' },
+  { id: 'moolee', name: 'Moolee.mv', short: 'Moolee', area: 'Online', tagline: 'Nationwide online marketplace', source: 'online', url: 'https://moolee.mv' },
+  // ——— Facebook shop pages ———
+  { id: 'gadgethub', name: 'Gadget Hub MV', short: 'GadgetHub', area: 'Facebook', tagline: 'Phones & accessories via DM, Malé pickup', source: 'facebook', url: 'https://facebook.com/gadgethubmv' },
+  { id: 'islandhome', name: 'Island Home MV', short: 'IslandHome', area: 'Facebook', tagline: 'Household & grocery deals, island delivery', source: 'facebook', url: 'https://facebook.com/islandhomemv' },
 ];
 
 export const products: Product[] = [
@@ -48,7 +67,7 @@ export const products: Product[] = [
     brand: 'Samsung',
     category: 'electronics',
     unit: 'per unit',
-    prices: { sto: null, agora: null, redwave: 6790, villamart: null, sonee: null, damas: 6499 },
+    prices: { sto: null, agora: null, redwave: 6790, villamart: null, sonee: null, damas: 6499, esto: 6650, moolee: 6580, gadgethub: 6390, islandhome: null },
   },
   {
     id: 'iphone-15',
@@ -56,7 +75,7 @@ export const products: Product[] = [
     brand: 'Apple',
     category: 'electronics',
     unit: 'per unit',
-    prices: { sto: null, agora: null, redwave: 18990, villamart: null, sonee: null, damas: 18450 },
+    prices: { sto: null, agora: null, redwave: 18990, villamart: null, sonee: null, damas: 18450, esto: null, moolee: 18790, gadgethub: 17950, islandhome: null },
   },
   {
     id: 'sony-ch720n',
@@ -64,7 +83,7 @@ export const products: Product[] = [
     brand: 'Sony',
     category: 'electronics',
     unit: 'per unit',
-    prices: { sto: null, agora: 2350, redwave: 2190, villamart: null, sonee: null, damas: 2090 },
+    prices: { sto: null, agora: 2350, redwave: 2190, villamart: null, sonee: null, damas: 2090, esto: 2240, moolee: 2150, gadgethub: 1990, islandhome: null },
   },
   {
     id: 'samsung-tv-55',
@@ -72,7 +91,7 @@ export const products: Product[] = [
     brand: 'Samsung',
     category: 'electronics',
     unit: 'per unit',
-    prices: { sto: 12490, agora: null, redwave: 11990, villamart: null, sonee: 12250, damas: 11790 },
+    prices: { sto: 12490, agora: null, redwave: 11990, villamart: null, sonee: 12250, damas: 11790, esto: 12190, moolee: 11890, gadgethub: null, islandhome: null },
   },
   {
     id: 'anker-20k',
@@ -80,7 +99,7 @@ export const products: Product[] = [
     brand: 'Anker',
     category: 'electronics',
     unit: 'per unit',
-    prices: { sto: null, agora: 949, redwave: 875, villamart: 990, sonee: null, damas: 849 },
+    prices: { sto: null, agora: 949, redwave: 875, villamart: 990, sonee: null, damas: 849, esto: 920, moolee: 860, gadgethub: 795, islandhome: null },
   },
   {
     id: 'jbl-flip6',
@@ -88,7 +107,7 @@ export const products: Product[] = [
     brand: 'JBL',
     category: 'electronics',
     unit: 'per unit',
-    prices: { sto: null, agora: 2090, redwave: 1990, villamart: null, sonee: null, damas: 1890 },
+    prices: { sto: null, agora: 2090, redwave: 1990, villamart: null, sonee: null, damas: 1890, esto: null, moolee: 1950, gadgethub: 1840, islandhome: null },
   },
   {
     id: 'tplink-ax55',
@@ -96,7 +115,7 @@ export const products: Product[] = [
     brand: 'TP-Link',
     category: 'electronics',
     unit: 'per unit',
-    prices: { sto: 1790, agora: null, redwave: 1690, villamart: null, sonee: 1745, damas: 1620 },
+    prices: { sto: 1790, agora: null, redwave: 1690, villamart: null, sonee: 1745, damas: 1620, esto: 1720, moolee: 1680, gadgethub: 1590, islandhome: null },
   },
   {
     id: 'midea-ac',
@@ -104,7 +123,7 @@ export const products: Product[] = [
     brand: 'Midea',
     category: 'electronics',
     unit: 'per unit',
-    prices: { sto: 8990, agora: null, redwave: 9290, villamart: null, sonee: 8790, damas: 9150 },
+    prices: { sto: 8990, agora: null, redwave: 9290, villamart: null, sonee: 8790, damas: 9150, esto: 8890, moolee: 9050, gadgethub: null, islandhome: null },
   },
   // ——— Groceries ———
   {
@@ -113,7 +132,7 @@ export const products: Product[] = [
     brand: 'Falcon',
     category: 'groceries',
     unit: '5 kg bag',
-    prices: { sto: 142, agora: 155, redwave: 139, villamart: 148, sonee: null, damas: null },
+    prices: { sto: 142, agora: 155, redwave: 139, villamart: 148, sonee: null, damas: null, esto: 145, moolee: 152, gadgethub: null, islandhome: 144 },
   },
   {
     id: 'anchor-18',
@@ -121,7 +140,7 @@ export const products: Product[] = [
     brand: 'Anchor',
     category: 'groceries',
     unit: '1.8 kg tin',
-    prices: { sto: 389, agora: 405, redwave: 379, villamart: 398, sonee: null, damas: null },
+    prices: { sto: 389, agora: 405, redwave: 379, villamart: 398, sonee: null, damas: null, esto: 385, moolee: 402, gadgethub: null, islandhome: 375 },
   },
   {
     id: 'sunflower-oil',
@@ -129,7 +148,7 @@ export const products: Product[] = [
     brand: 'Fortune',
     category: 'groceries',
     unit: '1.5 L bottle',
-    prices: { sto: 82, agora: 89, redwave: 79, villamart: 86, sonee: null, damas: null },
+    prices: { sto: 82, agora: 89, redwave: 79, villamart: 86, sonee: null, damas: null, esto: 84, moolee: 88, gadgethub: null, islandhome: 81 },
   },
   {
     id: 'eggs-30',
@@ -137,7 +156,7 @@ export const products: Product[] = [
     brand: 'Farm fresh',
     category: 'groceries',
     unit: '30 eggs',
-    prices: { sto: 72, agora: 79, redwave: 69, villamart: 75, sonee: null, damas: null },
+    prices: { sto: 72, agora: 79, redwave: 69, villamart: 75, sonee: null, damas: null, esto: 74, moolee: null, gadgethub: null, islandhome: 71 },
   },
   {
     id: 'felivaru-tuna',
@@ -145,7 +164,7 @@ export const products: Product[] = [
     brand: 'Felivaru',
     category: 'groceries',
     unit: '185 g can',
-    prices: { sto: 20, agora: 24, redwave: 21, villamart: 22, sonee: null, damas: null },
+    prices: { sto: 20, agora: 24, redwave: 21, villamart: 22, sonee: null, damas: null, esto: 21, moolee: 23, gadgethub: null, islandhome: 22 },
   },
   {
     id: 'nescafe-200',
@@ -153,7 +172,7 @@ export const products: Product[] = [
     brand: 'Nescafé',
     category: 'groceries',
     unit: '200 g jar',
-    prices: { sto: 139, agora: 152, redwave: 135, villamart: 146, sonee: null, damas: null },
+    prices: { sto: 139, agora: 152, redwave: 135, villamart: 146, sonee: null, damas: null, esto: 142, moolee: 149, gadgethub: null, islandhome: 138 },
   },
   {
     id: 'sugar-1kg',
@@ -161,7 +180,7 @@ export const products: Product[] = [
     brand: 'STO',
     category: 'groceries',
     unit: '1 kg pack',
-    prices: { sto: 16, agora: 19, redwave: 17, villamart: 18, sonee: null, damas: null },
+    prices: { sto: 16, agora: 19, redwave: 17, villamart: 18, sonee: null, damas: null, esto: 16, moolee: null, gadgethub: null, islandhome: 18 },
   },
   {
     id: 'munchee-cracker',
@@ -169,7 +188,7 @@ export const products: Product[] = [
     brand: 'Munchee',
     category: 'groceries',
     unit: '500 g box',
-    prices: { sto: 36, agora: 42, redwave: 35, villamart: 39, sonee: null, damas: null },
+    prices: { sto: 36, agora: 42, redwave: 35, villamart: 39, sonee: null, damas: null, esto: 37, moolee: 41, gadgethub: null, islandhome: 38 },
   },
   // ——— Household ———
   {
@@ -178,7 +197,7 @@ export const products: Product[] = [
     brand: 'Ariel',
     category: 'household',
     unit: '3 kg pack',
-    prices: { sto: 189, agora: 205, redwave: 185, villamart: 199, sonee: 210, damas: null },
+    prices: { sto: 189, agora: 205, redwave: 185, villamart: 199, sonee: 210, damas: null, esto: 192, moolee: 202, gadgethub: null, islandhome: 182 },
   },
   {
     id: 'sunlight-750',
@@ -186,7 +205,7 @@ export const products: Product[] = [
     brand: 'Sunlight',
     category: 'household',
     unit: '750 ml bottle',
-    prices: { sto: 39, agora: 45, redwave: 38, villamart: 42, sonee: null, damas: null },
+    prices: { sto: 39, agora: 45, redwave: 38, villamart: 42, sonee: null, damas: null, esto: 40, moolee: 44, gadgethub: null, islandhome: 37 },
   },
   {
     id: 'dettol-500',
@@ -194,7 +213,7 @@ export const products: Product[] = [
     brand: 'Dettol',
     category: 'household',
     unit: '500 ml bottle',
-    prices: { sto: 74, agora: 82, redwave: 72, villamart: 79, sonee: 85, damas: null },
+    prices: { sto: 74, agora: 82, redwave: 72, villamart: 79, sonee: 85, damas: null, esto: 76, moolee: 81, gadgethub: null, islandhome: 73 },
   },
   {
     id: 'philips-led4',
@@ -202,7 +221,7 @@ export const products: Product[] = [
     brand: 'Philips',
     category: 'household',
     unit: '4-pack',
-    prices: { sto: 152, agora: 168, redwave: 149, villamart: null, sonee: 145, damas: 159 },
+    prices: { sto: 152, agora: 168, redwave: 149, villamart: null, sonee: 145, damas: 159, esto: 155, moolee: 150, gadgethub: 142, islandhome: 148 },
   },
   {
     id: 'harpic-1l',
@@ -210,7 +229,7 @@ export const products: Product[] = [
     brand: 'Harpic',
     category: 'household',
     unit: '1 L bottle',
-    prices: { sto: 52, agora: 58, redwave: 49, villamart: 55, sonee: 59, damas: null },
+    prices: { sto: 52, agora: 58, redwave: 49, villamart: 55, sonee: 59, damas: null, esto: 53, moolee: 57, gadgethub: null, islandhome: 51 },
   },
   {
     id: 'basket-40l',
@@ -218,7 +237,7 @@ export const products: Product[] = [
     brand: 'Lion Star',
     category: 'household',
     unit: 'per unit',
-    prices: { sto: null, agora: 155, redwave: 139, villamart: 149, sonee: 132, damas: null },
+    prices: { sto: null, agora: 155, redwave: 139, villamart: 149, sonee: 132, damas: null, esto: 145, moolee: 138, gadgethub: null, islandhome: 129 },
   },
   {
     id: 'gas-stove',
@@ -226,7 +245,7 @@ export const products: Product[] = [
     brand: 'Rinnai',
     category: 'household',
     unit: 'per unit',
-    prices: { sto: 1190, agora: null, redwave: 1145, villamart: null, sonee: 1090, damas: 1210 },
+    prices: { sto: 1190, agora: null, redwave: 1145, villamart: null, sonee: 1090, damas: 1210, esto: 1160, moolee: 1120, gadgethub: null, islandhome: 1075 },
   },
   {
     id: 'rice-cooker',
@@ -234,6 +253,6 @@ export const products: Product[] = [
     brand: 'Panasonic',
     category: 'household',
     unit: 'per unit',
-    prices: { sto: 1420, agora: null, redwave: 1350, villamart: null, sonee: 1295, damas: 1390 },
+    prices: { sto: 1420, agora: null, redwave: 1350, villamart: null, sonee: 1295, damas: 1390, esto: 1380, moolee: 1340, gadgethub: 1270, islandhome: 1310 },
   },
 ];

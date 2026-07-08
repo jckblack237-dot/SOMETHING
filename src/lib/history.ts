@@ -55,29 +55,32 @@ function labelsFor(range: Range, points: number): string[] {
   return out;
 }
 
-export function currentStats(product: Product) {
-  const carried = Object.values(product.prices).filter((p): p is number => p != null);
+/** Current listed-price stats for a product, optionally scoped to a set of seller ids. */
+export function currentStats(product: Product, sellerIds?: string[]) {
+  const carried = Object.entries(product.prices)
+    .filter(([id, p]) => p != null && (!sellerIds || sellerIds.includes(id)))
+    .map(([, p]) => p as number);
   const low = Math.min(...carried);
   const high = Math.max(...carried);
-  const avg = carried.reduce((s, p) => s + p, 0) / carried.length;
+  const avg = carried.reduce((s, p) => s + p, 0) / Math.max(carried.length, 1);
   return { low, avg, high, stores: carried.length };
 }
 
 const cache = new Map<string, HistoryPoint[]>();
 
 /**
- * Deterministic price history ending at the product's current shelf stats:
- * a backwards random walk on the market average, with the low/high band
- * kept proportional to today's spread.
+ * Deterministic price history ending at the product's current listed stats
+ * (scoped to the given sellers): a backwards random walk on the market
+ * average, with the low/high band kept proportional to today's spread.
  */
-export function priceHistory(product: Product, range: Range): HistoryPoint[] {
-  const key = `${product.id}:${range}`;
+export function priceHistory(product: Product, range: Range, sellerIds?: string[]): HistoryPoint[] {
+  const key = `${product.id}:${range}:${sellerIds ? sellerIds.join('.') : 'all'}`;
   const hit = cache.get(key);
   if (hit) return hit;
 
   const { points, jitter, drift } = RANGE_SPEC[range];
-  const { low, avg, high } = currentStats(product);
-  const rand = mulberry32(hash(key));
+  const { low, avg, high } = currentStats(product, sellerIds);
+  const rand = mulberry32(hash(`${product.id}:${range}`));
   const labels = labelsFor(range, points);
 
   const avgs = [avg];
@@ -105,6 +108,6 @@ export function priceHistory(product: Product, range: Range): HistoryPoint[] {
 }
 
 /** Sparkline of the product's market average over the year. */
-export function avgTrend(product: Product): number[] {
-  return priceHistory(product, 'year').map((p) => p.avg);
+export function avgTrend(product: Product, sellerIds?: string[]): number[] {
+  return priceHistory(product, 'year', sellerIds).map((p) => p.avg);
 }

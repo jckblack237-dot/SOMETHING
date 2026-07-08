@@ -22,15 +22,17 @@ export default function PriceTrendCard({
   product,
   range,
   onRangeChange,
+  sellerIds,
 }: {
   product: Product;
   range: Range;
   onRangeChange: (r: Range) => void;
+  sellerIds?: string[];
 }) {
   const [table, setTable] = useState(false);
   const [hover, setHover] = useState<number | null>(null);
 
-  const data = useMemo(() => priceHistory(product, range), [product, range]);
+  const data = useMemo(() => priceHistory(product, range, sellerIds), [product, range, sellerIds]);
   const n = data.length;
 
   const { ticks, lo, hi } = useMemo(() => {
@@ -73,7 +75,7 @@ export default function PriceTrendCard({
 
   return (
     <div className="card p-5">
-      <CardHeader title="Price trend" subtitle={`${product.brand} ${product.name} — lowest, average and highest shelf price across stores`}>
+      <CardHeader title="Price trend" subtitle={`${product.brand} ${product.name} — lowest, average and highest listed price across sellers`}>
         <div className="flex items-center gap-2">
           <Segmented
             id="range"

@@ -1,8 +1,8 @@
 # Agu · Maldives Price Watch
 
 A dark, dashboard-style **price comparison website** for the Maldives — compare
-electronics, groceries and household items across six local stores, priced in
-Maldivian Rufiyaa (MVR).
+electronics, groceries and household items across local shops, Maldivian
+shopping websites and Facebook shop pages, priced in Maldivian Rufiyaa (MVR).
 
 > *Agu* (އަގު) is Dhivehi for "price".
 
@@ -17,18 +17,24 @@ Maldivian Rufiyaa (MVR).
   category chips; every row expands into a full store-by-store comparison.
 - **Stores** — profiles for each store with a price index meter (vs. market
   average), best-price wins and what it's cheapest for.
-- **Live filtering** — global search and category filter re-scope every chart,
-  stat and list on the page.
+- **Every kind of seller** — physical shops, shopping websites and Facebook
+  pages are compared side by side, each tagged with a source badge and a
+  direct link to the seller's website or Facebook page.
+- **Live filtering** — global search plus category and seller-type filters
+  (in-store / online shops / Facebook pages) re-scope every chart, stat and
+  list on the page.
 - **Seamless transitions** — preloader splash, animated view switches, sliding
   nav and toggle pills, spring-animated numbers, bars and expanding rows, with
   `prefers-reduced-motion` support.
 - **Accessible charts** — colorblind-validated palette, table view for every
   chart, keyboard-navigable trend chart, values never gated behind tooltips.
 
-## Stores tracked
+## Sellers tracked
 
-STO Supermart · Agora Central · Redwave Mega · VillaMart · Sonee Hardware ·
-Damas Electronics
+**Shops:** STO Supermart · Agora Central · Redwave Mega · VillaMart ·
+Sonee Hardware · Damas Electronics
+**Websites:** eSTO.mv · Moolee.mv
+**Facebook pages:** Gadget Hub MV · Island Home MV
 
 ## Tech stack
 
@@ -58,7 +64,7 @@ npm run lint       # run ESLint
 
 ```
 src/
-├── data/catalog.ts        # stores + products with per-store MVR prices
+├── data/catalog.ts        # sellers (shops, websites, FB pages) + products with per-seller MVR prices
 ├── lib/
 │   ├── history.ts         # deterministic price-history generation
 │   ├── stats.ts           # savings, wins, index and trend aggregates
@@ -73,5 +79,10 @@ src/
 
 All prices are **hand-curated demo data** — realistic for the Maldivian market
 but indicative only. Price histories are generated deterministically (seeded)
-so every visitor sees the same series. Swap `src/data/catalog.ts` for a real
-feed to go live.
+so every visitor sees the same series.
+
+Live scraping of every Maldivian website and Facebook page is not possible
+from a static site (Facebook restricts automated access), so the app ships as
+the full comparison framework across all three seller channels: swap
+`src/data/catalog.ts` for a real price feed (API, community submissions, or
+per-seller integrations) to go live.
