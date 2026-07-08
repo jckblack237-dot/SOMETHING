@@ -92,7 +92,7 @@ export default function App() {
           </motion.div>
 
           <footer className="pb-4 pt-6 text-center text-xs text-ink-3">
-            Agu · Maldives price watch — comparing shops, shopping websites & Facebook pages · demo data, prices indicative in MVR
+            Agu · Maldives price watch — comparing shops, websites, Facebook & Instagram pages · demo data, prices indicative in MVR
           </footer>
         </div>
       </main>

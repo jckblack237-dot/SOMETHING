@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import { BadgeCheck, ExternalLink } from 'lucide-react';
+import { BadgeCheck, ExternalLink, ShieldCheck } from 'lucide-react';
 import { stores, type Product } from '../data/catalog';
 import { mvr, num, pct } from '../lib/format';
+import { checkedHoursAgo } from '../lib/history';
 import { saving } from '../lib/stats';
 import { SourceBadge } from './ui';
 
@@ -87,6 +88,33 @@ export default function CompareBars({ product, sellerIds }: { product: Product; 
           <span className="mt-1 block">Not listed at {skipped.map((st) => st.short).join(', ')}.</span>
         )}
       </p>
+
+      {(() => {
+        const socials = rows.filter(({ store }) => store.source === 'facebook' || store.source === 'instagram');
+        if (socials.length === 0) return null;
+        return (
+          <p className="mt-2.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-ink-3">
+            <ShieldCheck size={13} className="shrink-0" style={{ color: 'var(--color-good)' }} />
+            <span>
+              Cross-checked on social:{' '}
+              {socials.map(({ store }, i) => (
+                <span key={store.id}>
+                  {i > 0 && ' · '}
+                  <a
+                    href={store.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-ink-2 underline-offset-2 hover:underline"
+                  >
+                    {store.name}
+                  </a>{' '}
+                  {checkedHoursAgo(`${product.id}:${store.id}`)}h ago
+                </span>
+              ))}
+            </span>
+          </p>
+        );
+      })()}
     </div>
   );
 }

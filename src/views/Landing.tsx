@@ -51,7 +51,7 @@ function Stars({ count = 5 }: { count?: number }) {
 
 const STEPS = [
   { n: '01', title: 'Search', copy: 'Type any product — a phone, a bag of rice, a rice cooker. Agu finds every seller that lists it.' },
-  { n: '02', title: 'Compare', copy: 'See every listed price side by side — shops, websites and Facebook pages — with the best deal called out.' },
+  { n: '02', title: 'Compare', copy: 'See every listed price side by side — shops, websites, Facebook and Instagram pages — cross-checked and the best deal called out.' },
   { n: '03', title: 'Save', copy: 'Jump straight to the seller, or watch the trend and buy when the price dips. The saving is yours.' },
 ];
 
@@ -80,11 +80,11 @@ const FAQS = [
   },
   {
     q: 'Which sellers do you compare?',
-    a: 'Ten sellers across three channels: supermarkets and hardware shops in Malé and Hulhumalé, Maldivian shopping websites like eSTO and Moolee, and Facebook shop pages that sell via DM.',
+    a: 'Twelve sellers across four channels: supermarkets and hardware shops in Malé and Hulhumalé, Maldivian shopping websites like eSTO and Moolee, and Facebook and Instagram shop pages that sell via DM.',
   },
   {
-    q: 'Are Facebook page prices really included?',
-    a: 'Yes — Facebook shops are a huge part of shopping in the Maldives, so their listed prices sit side by side with the big chains in every comparison.',
+    q: 'Are Facebook and Instagram prices really included?',
+    a: 'Yes — social shops are a huge part of shopping in the Maldives, so Facebook and Instagram listings sit side by side with the big chains, and every comparison shows when each social listing was last cross-checked.',
   },
   {
     q: 'Do prices include delivery fees?',
@@ -96,7 +96,7 @@ const FAQS = [
   },
   {
     q: 'How do I list my shop or page on Agu?',
-    a: 'We would love that. Send us your price list or a link to your page and we will add you next to the ten sellers already tracked.',
+    a: 'We would love that. Send us your price list or a link to your page and we will add you next to the twelve sellers already tracked.',
   },
 ];
 
@@ -179,7 +179,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
             className="relative mt-6 max-w-xl text-pretty text-base text-ink-2 sm:text-lg"
           >
             Agu compares electronics, groceries and household prices across local shops,
-            shopping websites and Facebook pages — so you never overpay again.
+            shopping websites, Facebook and Instagram pages — so you never overpay again.
           </motion.p>
 
           <motion.div
@@ -230,7 +230,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
           <motion.div {...reveal}>
             <SectionTag n="001" label="What we compare" />
             <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Three aisles. Ten sellers. Zero guesswork.
+              Three aisles. Twelve sellers. Zero guesswork.
             </h2>
           </motion.div>
 
@@ -303,7 +303,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
             <div>
               <SectionTag n="003" label="Sellers" />
               <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-                Shops, websites and Facebook pages — side by side.
+                Shops, websites, Facebook & Instagram — side by side.
               </h2>
             </div>
             <button
@@ -315,12 +315,12 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
             </button>
           </motion.div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {stores.map((s, i) => (
               <motion.a
                 key={s.id}
                 {...reveal}
-                transition={{ ...reveal.transition, delay: (i % 5) * 0.06 }}
+                transition={{ ...reveal.transition, delay: (i % 4) * 0.06 }}
                 href={s.url ?? '#sellers'}
                 target={s.url ? '_blank' : undefined}
                 rel={s.url ? 'noopener noreferrer' : undefined}

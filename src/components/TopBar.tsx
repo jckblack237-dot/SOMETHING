@@ -18,6 +18,7 @@ const SOURCE_OPTIONS: { value: SourceType | 'all'; label: string }[] = [
   { value: 'store', label: 'In-store' },
   { value: 'online', label: 'Online shops' },
   { value: 'facebook', label: 'Facebook pages' },
+  { value: 'instagram', label: 'Instagram pages' },
 ];
 
 export default function TopBar({

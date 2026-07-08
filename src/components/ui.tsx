@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useMotionValueEvent, useSpring } from 'framer-motion';
-import { Check, ChevronDown, Facebook, Globe, Store as StoreIcon } from 'lucide-react';
+import { Check, ChevronDown, Facebook, Globe, Instagram, Store as StoreIcon } from 'lucide-react';
 import type { Category, SourceType } from '../data/catalog';
 import { SOURCE_LABEL } from '../data/catalog';
 
@@ -14,6 +14,7 @@ const SOURCE_ICON: Record<SourceType, typeof Globe> = {
   store: StoreIcon,
   online: Globe,
   facebook: Facebook,
+  instagram: Instagram,
 };
 
 /** Small chip identifying where a seller lists prices: shop, website or Facebook page. */

@@ -113,8 +113,13 @@ describe('stats', () => {
   });
   it('maps source filters to seller ids', () => {
     expect(sellersFor('facebook')).toEqual(['gadgethub', 'islandhome']);
+    expect(sellersFor('instagram')).toEqual(['islegadgets', 'casamaldives']);
     expect(sellersFor('online')).toEqual(['esto', 'moolee']);
     expect(sellersFor('all')).toHaveLength(stores.length);
+  });
+  it('scopes the catalog to instagram sellers', () => {
+    expect(filterProducts('all', '', sellersFor('instagram'))).toHaveLength(14);
+    expect(storeProfiles('instagram')).toHaveLength(2);
   });
   it('counts best-price wins including ties', () => {
     const wins = bestPriceWins(products);

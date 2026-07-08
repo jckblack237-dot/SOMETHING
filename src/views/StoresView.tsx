@@ -18,7 +18,7 @@ export default function StoresView({ source }: { source: SourceType | 'all' }) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-3xl font-semibold tracking-tight text-ink">Sellers</h1>
         <p className="text-sm text-ink-3">
-          {profiles.length} seller{profiles.length === 1 ? '' : 's'} — shops, websites & Facebook pages
+          {profiles.length} seller{profiles.length === 1 ? '' : 's'} — shops, websites, Facebook & Instagram
         </p>
       </div>
 

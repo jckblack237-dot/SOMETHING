@@ -30,6 +30,11 @@ function hash(str: string): number {
   return h >>> 0;
 }
 
+/** Deterministic "hours since this social listing was last cross-checked" (1–23). */
+export function checkedHoursAgo(key: string): number {
+  return (hash(key) % 23) + 1;
+}
+
 const RANGE_SPEC: Record<Range, { points: number; jitter: number; drift: number }> = {
   week: { points: 7, jitter: 0.012, drift: 0.004 },
   month: { points: 10, jitter: 0.02, drift: 0.008 },

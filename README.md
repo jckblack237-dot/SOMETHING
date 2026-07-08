@@ -2,7 +2,8 @@
 
 A dark, dashboard-style **price comparison website** for the Maldives — compare
 electronics, groceries and household items across local shops, Maldivian
-shopping websites and Facebook shop pages, priced in Maldivian Rufiyaa (MVR).
+shopping websites, and Facebook & Instagram shop pages, priced in Maldivian
+Rufiyaa (MVR).
 
 > *Agu* (އަގު) is Dhivehi for "price".
 
@@ -21,12 +22,15 @@ shopping websites and Facebook shop pages, priced in Maldivian Rufiyaa (MVR).
   category chips; every row expands into a full store-by-store comparison.
 - **Stores** — profiles for each store with a price index meter (vs. market
   average), best-price wins and what it's cheapest for.
-- **Every kind of seller** — physical shops, shopping websites and Facebook
-  pages are compared side by side, each tagged with a source badge and a
-  direct link to the seller's website or Facebook page.
+- **Every kind of seller** — physical shops, shopping websites, Facebook and
+  Instagram pages are compared side by side, each tagged with a source badge
+  and a direct link to the seller's website or page.
+- **Social cross-checking** — every comparison lists which Facebook and
+  Instagram listings the price was verified against, with last-checked
+  stamps and links to each listing.
 - **Live filtering** — global search plus category and seller-type filters
-  (in-store / online shops / Facebook pages) re-scope every chart, stat and
-  list on the page.
+  (in-store / online shops / Facebook pages / Instagram pages) re-scope every
+  chart, stat and list on the page.
 - **Seamless transitions** — preloader splash, animated view switches, sliding
   nav and toggle pills, spring-animated numbers, bars and expanding rows, with
   `prefers-reduced-motion` support.
@@ -39,6 +43,7 @@ shopping websites and Facebook shop pages, priced in Maldivian Rufiyaa (MVR).
 Sonee Hardware · Damas Electronics
 **Websites:** eSTO.mv · Moolee.mv
 **Facebook pages:** Gadget Hub MV · Island Home MV
+**Instagram pages:** Isle Gadgets · Casa Maldives
 
 ## Tech stack
 
