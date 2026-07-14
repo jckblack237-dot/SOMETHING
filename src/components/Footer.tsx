@@ -64,7 +64,7 @@ export default function Footer({
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-3">Good to know</p>
           <p className="text-xs leading-relaxed text-ink-3">
             Prices are indicative demo data in MVR. Social listings show when they were last cross-checked. Agu links
-            you to the seller — we never sell anything ourselves.
+            you to the seller — we never sell anything ourselves. Product photos via Wikimedia Commons.
           </p>
         </div>
       </div>

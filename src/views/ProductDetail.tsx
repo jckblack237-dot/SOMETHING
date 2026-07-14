@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ExternalLink, ShoppingBag } from 'lucide-react';
 import { CATEGORY_LABEL, products, type Product } from '../data/catalog';
 import type { Range } from '../lib/history';
 import { mvr, pct } from '../lib/format';
@@ -17,6 +17,8 @@ export default function ProductDetail({
   onHome,
   onShop,
   onOpenProduct,
+  onBasket,
+  basketIds,
 }: {
   product: Product;
   /** Omitted on purpose in the app: a product page always compares every seller. */
@@ -26,6 +28,8 @@ export default function ProductDetail({
   onHome: () => void;
   onShop: () => void;
   onOpenProduct: (id: string) => void;
+  onBasket: (id: string) => void;
+  basketIds: string[];
 }) {
   const s = saving(product, sellerIds);
   const related = products
@@ -84,6 +88,36 @@ export default function ProductDetail({
             best price at <span className="font-medium text-ink-2">{s.bestStore.name}</span>
           </p>
 
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            {s.bestStore.url ? (
+              <a
+                href={s.bestStore.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-[0.15em] text-page transition-transform hover:scale-[1.03] active:scale-95"
+              >
+                Buy at {s.bestStore.short}
+                <ExternalLink size={13} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+            ) : (
+              <span className="rounded-full border border-edge px-6 py-3 text-xs font-medium uppercase tracking-[0.15em] text-ink-2">
+                Available in-store at {s.bestStore.short}
+              </span>
+            )}
+            <button
+              onClick={() => onBasket(product.id)}
+              aria-pressed={basketIds.includes(product.id)}
+              className={`flex items-center gap-2 rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-colors ${
+                basketIds.includes(product.id)
+                  ? 'bg-ink text-page'
+                  : 'border border-edge text-ink-2 hover:border-ink/30 hover:text-ink'
+              }`}
+            >
+              <ShoppingBag size={13} />
+              {basketIds.includes(product.id) ? 'In basket' : 'Add to basket'}
+            </button>
+          </div>
+
           <div className="mt-8 rounded-xl border border-edge bg-surface p-5">
             <h2 className="mb-4 text-sm font-semibold text-ink">Compare sellers</h2>
             <CompareBars product={product} sellerIds={sellerIds} />
@@ -102,7 +136,7 @@ export default function ProductDetail({
           </h2>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {related.map((p, i) => (
-              <ProductCard key={p.id} product={p} sellerIds={sellerIds} onOpen={onOpenProduct} index={i} />
+              <ProductCard key={p.id} product={p} sellerIds={sellerIds} onOpen={onOpenProduct} onBasket={onBasket} basketed={basketIds.includes(p.id)} index={i} />
             ))}
           </div>
         </section>

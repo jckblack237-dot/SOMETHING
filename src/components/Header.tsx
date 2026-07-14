@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bell, Search, Tag } from 'lucide-react';
+import { Bell, Search, ShoppingBag, Tag } from 'lucide-react';
 import { products } from '../data/catalog';
 import { recentDrops } from '../lib/stats';
 import { signedPct } from '../lib/format';
 import { Delta } from './ui';
 
-export type View = 'home' | 'shop' | 'product' | 'sellers' | 'insights';
+export type View = 'home' | 'shop' | 'product' | 'sellers' | 'insights' | 'basket';
 
 const NAV: { id: View; label: string }[] = [
   { id: 'home', label: 'Home' },
@@ -20,11 +20,13 @@ export default function Header({
   onNavigate,
   query,
   onQuery,
+  basketCount,
 }: {
   view: View;
   onNavigate: (v: View) => void;
   query: string;
   onQuery: (q: string) => void;
+  basketCount: number;
 }) {
   const [bellOpen, setBellOpen] = useState(false);
   const bellRef = useRef<HTMLDivElement>(null);
@@ -131,6 +133,20 @@ export default function Header({
             )}
           </AnimatePresence>
         </div>
+
+        <button
+          onClick={() => onNavigate('basket')}
+          aria-label={`Basket (${basketCount} item${basketCount === 1 ? '' : 's'})`}
+          aria-current={view === 'basket' ? 'page' : undefined}
+          className="relative flex h-9 w-9 items-center justify-center rounded-full border border-edge bg-surface text-ink-2 transition-colors hover:text-ink"
+        >
+          <ShoppingBag size={15} />
+          {basketCount > 0 && (
+            <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-s1 px-1 text-[9px] font-bold text-white">
+              {basketCount}
+            </span>
+          )}
+        </button>
       </div>
     </header>
   );

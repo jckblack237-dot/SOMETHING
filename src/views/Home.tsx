@@ -68,9 +68,13 @@ const FAQS = [
 export default function Home({
   onShop,
   onOpenProduct,
+  onBasket,
+  basketIds,
 }: {
   onShop: (c: Category | 'all') => void;
   onOpenProduct: (id: string) => void;
+  onBasket: (id: string) => void;
+  basketIds: string[];
 }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -246,7 +250,7 @@ export default function Home({
           </motion.div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {deals.map((p, i) => (
-              <ProductCard key={p.id} product={p} onOpen={onOpenProduct} index={i} />
+              <ProductCard key={p.id} product={p} onOpen={onOpenProduct} onBasket={onBasket} basketed={basketIds.includes(p.id)} index={i} />
             ))}
           </div>
         </section>

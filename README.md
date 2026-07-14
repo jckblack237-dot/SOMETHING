@@ -12,7 +12,14 @@ Rufiyaa (MVR).
 - **Shop-style experience** — storefront homepage (hero, category tiles,
   best-deals grid, reviews, FAQ), a product-card catalog with category
   chips, seller-type filter and sorting, and full product pages with
-  breadcrumbs, sale badges and related products.
+  photos, breadcrumbs, sale badges and related products.
+- **Buy at the seller** — every card, product page and comparison row
+  links straight to the seller's website or social page.
+- **Smart basket** — build a shopping list (persisted locally) and Agu
+  computes the cheapest single seller for the whole basket, with
+  per-seller coverage and totals.
+- **Product photos** — openly licensed images from Wikimedia Commons,
+  bundled with the site, with tinted icon tiles as fallback.
 - **Every kind of seller** — physical shops, shopping websites, Facebook and
   Instagram pages compared side by side on every product page, with source
   badges and direct links to each seller.

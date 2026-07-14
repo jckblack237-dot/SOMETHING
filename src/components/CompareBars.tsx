@@ -26,22 +26,13 @@ export default function CompareBars({ product, sellerIds }: { product: Product; 
       <ul className="space-y-2.5">
         {rows.map(({ store, price }, i) => {
           const best = i === 0;
-          return (
-            <li key={store.id} className="flex items-center gap-2 sm:gap-2.5">
+          const rowContent = (
+            <>
               <span className="flex w-24 shrink-0 items-center gap-1.5 sm:w-36">
                 <SourceBadge source={store.source} iconOnly />
-                {store.url ? (
-                  <a
-                    href={store.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`group inline-flex min-w-0 items-center gap-1 text-xs hover:underline ${best ? 'font-semibold text-ink' : 'text-ink-2'}`}
-                  >
-                    <span className="truncate">{store.name}</span>
-                    <ExternalLink size={10} className="shrink-0 text-ink-3 opacity-0 transition-opacity group-hover:opacity-100" />
-                  </a>
-                ) : (
-                  <span className={`truncate text-xs ${best ? 'font-semibold text-ink' : 'text-ink-2'}`}>{store.name}</span>
+                <span className={`truncate text-xs ${best ? 'font-semibold text-ink' : 'text-ink-2'}`}>{store.name}</span>
+                {store.url && (
+                  <ExternalLink size={10} className="shrink-0 text-ink-3 opacity-0 transition-opacity group-hover/row:opacity-100" />
                 )}
               </span>
               <div className="h-3.5 flex-1" role="presentation">
@@ -64,6 +55,24 @@ export default function CompareBars({ product, sellerIds }: { product: Product; 
                   </span>
                 )}
               </span>
+            </>
+          );
+          const rowClass = 'flex items-center gap-2 sm:gap-2.5';
+          return (
+            <li key={store.id}>
+              {store.url ? (
+                <a
+                  href={store.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${store.name}: MVR ${num(price)} — open seller page`}
+                  className={`group/row -mx-2 rounded-lg px-2 py-0.5 transition-colors hover:bg-ink/[0.03] ${rowClass}`}
+                >
+                  {rowContent}
+                </a>
+              ) : (
+                <div className={rowClass}>{rowContent}</div>
+              )}
             </li>
           );
         })}

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   AirVent,
   BatteryCharging,
@@ -61,8 +62,9 @@ const TILE_BG: Record<Category, string> = {
 };
 
 /**
- * Warm product visual standing in for a photo: a category-tinted tile with the
- * product's icon. `badge` renders a small sale-style chip in the corner.
+ * Product visual: a bundled photo (public/products/{id}.jpg) over a
+ * category-tinted icon tile that doubles as the loading/fallback state.
+ * `badge` renders a small sale-style chip in the corner.
  */
 export default function ProductTile({
   product,
@@ -70,23 +72,34 @@ export default function ProductTile({
   iconSize = 44,
   className = '',
   arch = false,
+  alt = '',
 }: {
   product: Product;
   badge?: string;
   iconSize?: number;
   className?: string;
   arch?: boolean;
+  alt?: string;
 }) {
+  const [failed, setFailed] = useState(false);
   const Icon = PRODUCT_ICON[product.id] ?? Package;
   return (
     <div
-      aria-hidden
       className={`relative flex items-center justify-center overflow-hidden ${arch ? 'rounded-t-full rounded-b-xl' : 'rounded-xl'} ${className}`}
       style={{ background: TILE_BG[product.category] }}
     >
-      <Icon size={iconSize} strokeWidth={1.4} style={{ color: CATEGORY_COLOR[product.category] }} />
+      <Icon aria-hidden size={iconSize} strokeWidth={1.4} style={{ color: CATEGORY_COLOR[product.category] }} />
+      {!failed && (
+        <img
+          src={`${import.meta.env.BASE_URL}products/${product.id}.jpg`}
+          alt={alt}
+          loading="lazy"
+          onError={() => setFailed(true)}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
       {badge && (
-        <span className="absolute left-2.5 top-2.5 rounded-full bg-ink px-2 py-0.5 text-[10px] font-semibold text-page">
+        <span className="absolute left-2.5 top-2.5 z-10 rounded-full bg-ink px-2 py-0.5 text-[10px] font-semibold text-page">
           {badge}
         </span>
       )}

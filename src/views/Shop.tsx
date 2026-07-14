@@ -22,6 +22,8 @@ export default function Shop({
   source,
   onSource,
   onOpenProduct,
+  onBasket,
+  basketIds,
 }: {
   products: Product[];
   sellerIds: string[];
@@ -30,6 +32,8 @@ export default function Shop({
   source: SourceType | 'all';
   onSource: (s: SourceType | 'all') => void;
   onOpenProduct: (id: string) => void;
+  onBasket: (id: string) => void;
+  basketIds: string[];
 }) {
   const [sort, setSort] = useState<Sort>('saving');
 
@@ -97,7 +101,7 @@ export default function Shop({
       ) : (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {sorted.map((p, i) => (
-            <ProductCard key={p.id} product={p} sellerIds={sellerIds} onOpen={onOpenProduct} index={i} />
+            <ProductCard key={p.id} product={p} sellerIds={sellerIds} onOpen={onOpenProduct} onBasket={onBasket} basketed={basketIds.includes(p.id)} index={i} />
           ))}
         </div>
       )}
