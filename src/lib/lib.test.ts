@@ -150,12 +150,19 @@ describe('stats', () => {
     expect(storesCarrying(products)).toBe(stores.length);
     expect(storesCarrying(products, ['gadgethub'])).toBe(1);
   });
+  it('every product has a short deep-link search term', () => {
+    for (const p of products) {
+      expect(p.query.length).toBeGreaterThan(2);
+      expect(p.query.length).toBeLessThan(25);
+      expect(p.query).toBe(p.query.toLowerCase());
+    }
+  });
   it('builds product listing deep links per seller', () => {
     const led = byId('philips-led4');
     const by = (id: string) => stores.find((st) => st.id === id)!;
-    expect(listingUrl(by('sonee'), led)).toBe('https://sonee.com.mv/search?q=Philips%20LED%20Bulb%209W%20E27');
-    expect(listingUrl(by('redwave'), led)).toContain('redwave.mv/?s=Philips%20LED%20Bulb');
-    expect(listingUrl(by('esto'), led)).toContain('google.com/search?q=site%3Aesto.mv');
+    expect(listingUrl(by('sonee'), led)).toBe('https://sonee.com.mv/search?q=led%20bulb');
+    expect(listingUrl(by('redwave'), led)).toContain('redwave.mv/?s=led%20bulb');
+    expect(listingUrl(by('esto'), led)).toContain('google.com/search?q=site%3Aesto.mv%20led%20bulb');
     expect(listingUrl(by('gadgethub'), led)).toBe('https://facebook.com/gadgethubmv');
     expect(listingUrl(by('agora'), led)).toBeUndefined();
   });

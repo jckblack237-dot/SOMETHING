@@ -17,7 +17,7 @@ export function sellerCount(product: Product, sellerIds: string[]): number {
  */
 export function listingUrl(store: Store, product: Product): string | undefined {
   if (!store.url) return undefined;
-  const q = `${product.brand} ${product.name}`;
+  const q = product.query;
   if (store.search) return store.search.replace('{q}', encodeURIComponent(q));
   if (store.source === 'facebook' || store.source === 'instagram') return store.url;
   const domain = store.url.replace(/^https?:\/\//, '');
