@@ -100,7 +100,7 @@ export default function Overview({
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">Dashboard</h1>
+        <h1 className="font-display text-3xl font-light tracking-tight text-ink">Dashboard</h1>
         <span className="flex items-center gap-2 rounded-xl border border-edge bg-surface px-3.5 py-2 text-xs text-ink-2">
           <CalendarDays size={14} className="text-ink-3" />
           {dateChip()}

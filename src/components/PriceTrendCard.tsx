@@ -200,7 +200,7 @@ export default function PriceTrendCard({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.12 }}
-                  className="pointer-events-none absolute top-2 z-20 min-w-36 rounded-xl border border-edge bg-raised p-3 shadow-xl shadow-black/50"
+                  className="pointer-events-none absolute top-2 z-20 min-w-36 rounded-xl border border-edge bg-raised p-3 shadow-xl shadow-black/15"
                   style={{
                     left: `${tooltipLeft}%`,
                     transform: flip ? 'translateX(calc(-100% - 12px))' : 'translateX(12px)',

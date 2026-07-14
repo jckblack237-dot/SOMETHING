@@ -149,7 +149,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
         <section className="relative flex min-h-screen flex-col items-center justify-center pb-16 pt-28 text-center">
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/3 h-[480px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-25 blur-[120px]"
+            className="pointer-events-none absolute left-1/2 top-1/3 h-[480px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-15 blur-[120px]"
             style={{ background: 'radial-gradient(closest-side, var(--color-s1), transparent)' }}
           />
 
@@ -167,7 +167,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="relative max-w-3xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-6xl md:text-7xl"
+            className="font-display relative max-w-3xl text-balance text-5xl font-light leading-[1.05] tracking-tight text-ink sm:text-6xl md:text-7xl"
           >
             Every price in the Maldives. One place.
           </motion.h1>
@@ -190,14 +190,14 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
           >
             <button
               onClick={onOpen}
-              className="group flex items-center gap-2 rounded-full bg-s1 px-6 py-3 text-sm font-semibold text-page transition-transform hover:scale-[1.04] active:scale-95"
+              className="group flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-page transition-transform hover:scale-[1.04] active:scale-95"
             >
               Compare prices
               <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
             </button>
             <a
               href="#how"
-              className="rounded-full border border-edge px-6 py-3 text-sm font-medium text-ink-2 transition-colors hover:border-white/25 hover:text-ink"
+              className="rounded-full border border-edge px-6 py-3 text-sm font-medium text-ink-2 transition-colors hover:border-ink/30 hover:text-ink"
             >
               How it works
             </a>
@@ -229,7 +229,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
         <section id="compare" className="border-t border-edge py-24">
           <motion.div {...reveal}>
             <SectionTag n="001" label="What we compare" />
-            <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display max-w-2xl text-balance text-3xl font-light tracking-tight text-ink sm:text-4xl">
               Three aisles. Twelve sellers. Zero guesswork.
             </h2>
           </motion.div>
@@ -273,7 +273,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
         <section id="how" className="border-t border-edge py-24">
           <motion.div {...reveal}>
             <SectionTag n="002" label="How it works" />
-            <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display max-w-2xl text-balance text-3xl font-light tracking-tight text-ink sm:text-4xl">
               From “how much?” to “done” in three steps.
             </h2>
           </motion.div>
@@ -302,7 +302,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
           <motion.div {...reveal} className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <SectionTag n="003" label="Sellers" />
-              <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              <h2 className="font-display max-w-2xl text-balance text-3xl font-light tracking-tight text-ink sm:text-4xl">
                 Shops, websites, Facebook & Instagram — side by side.
               </h2>
             </div>
@@ -362,7 +362,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
         <section className="border-t border-edge py-24">
           <motion.div {...reveal}>
             <SectionTag n="005" label="Reviews" />
-            <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-display max-w-2xl text-balance text-3xl font-light tracking-tight text-ink sm:text-4xl">
               Shoppers keep the receipts.
             </h2>
           </motion.div>
@@ -390,7 +390,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
           <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
             <motion.div {...reveal}>
               <SectionTag n="006" label="FAQ" />
-              <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              <h2 className="font-display text-balance text-3xl font-light tracking-tight text-ink sm:text-4xl">
                 Questions, answered.
               </h2>
               <p className="mt-3 text-sm text-ink-2">Everything shoppers and sellers ask us.</p>
@@ -404,7 +404,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
                     <button
                       onClick={() => setOpenFaq(open ? null : i)}
                       aria-expanded={open}
-                      className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-medium text-ink transition-colors hover:bg-white/[0.02]"
+                      className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-medium text-ink transition-colors hover:bg-ink/[0.03]"
                     >
                       {f.q}
                       <ChevronDown
@@ -437,10 +437,10 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
           <motion.div {...reveal} className="relative">
             <div
               aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20 blur-[100px]"
+              className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-10 blur-[100px]"
               style={{ background: 'radial-gradient(closest-side, var(--color-s1), transparent)' }}
             />
-            <h2 className="relative mx-auto max-w-2xl text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+            <h2 className="font-display relative mx-auto max-w-2xl text-balance text-4xl font-light tracking-tight text-ink sm:text-5xl">
               Stop guessing. Start comparing.
             </h2>
             <p className="relative mt-4 text-sm text-ink-2 sm:text-base">
@@ -448,7 +448,7 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
             </p>
             <button
               onClick={onOpen}
-              className="group relative mt-8 inline-flex items-center gap-2 rounded-full bg-s1 px-7 py-3.5 text-sm font-semibold text-page transition-transform hover:scale-[1.04] active:scale-95"
+              className="group relative mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-page transition-transform hover:scale-[1.04] active:scale-95"
             >
               Open the dashboard
               <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />

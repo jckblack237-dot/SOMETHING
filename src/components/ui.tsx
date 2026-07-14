@@ -93,7 +93,7 @@ export function Segmented<T extends string>({
             {active && (
               <motion.span
                 layoutId={`seg-${id}`}
-                className="absolute inset-0 rounded-full bg-s1"
+                className="absolute inset-0 rounded-full bg-ink"
                 transition={{ type: 'spring', stiffness: 400, damping: 32 }}
               />
             )}
@@ -155,7 +155,7 @@ export function Dropdown<T extends string>({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.97 }}
             transition={{ duration: 0.16 }}
-            className="absolute right-0 z-30 mt-2 w-48 origin-top rounded-xl border border-edge bg-raised p-1.5 shadow-2xl shadow-black/50"
+            className="absolute right-0 z-30 mt-2 w-48 origin-top rounded-xl border border-edge bg-raised p-1.5 shadow-2xl shadow-black/15"
           >
             {options.map((o) => (
               <li key={o.value}>
@@ -166,7 +166,7 @@ export function Dropdown<T extends string>({
                     onChange(o.value);
                     setOpen(false);
                   }}
-                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-ink-2 transition-colors hover:bg-white/5 hover:text-ink"
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-ink-2 transition-colors hover:bg-ink/5 hover:text-ink"
                 >
                   {o.label}
                   {o.value === value && <Check size={16} strokeWidth={3} className="text-s1" />}
@@ -245,7 +245,7 @@ export function TableToggle({ table, onToggle }: { table: boolean; onToggle: () 
       onClick={onToggle}
       aria-pressed={table}
       aria-label={table ? 'Show chart view' : 'Show table view'}
-      className="rounded-lg border border-edge px-2.5 py-1.5 text-xs font-medium text-ink-3 transition-colors hover:bg-white/5 hover:text-ink"
+      className="rounded-lg border border-edge px-2.5 py-1.5 text-xs font-medium text-ink-3 transition-colors hover:bg-ink/5 hover:text-ink"
     >
       {table ? 'Chart' : 'Table'}
     </button>

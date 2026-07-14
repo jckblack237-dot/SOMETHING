@@ -1,35 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Catamaran", "Montserrat", system-ui, sans-serif;
 
-  /* Surfaces */
-  --color-page: #0a0a10;
-  --color-surface: #15151d;
-  --color-raised: #1c1c27;
-  --color-inset: #101017;
+  /* Surfaces — warm boho whites */
+  --color-page: #fdfcfa;
+  --color-surface: #ffffff;
+  --color-raised: #f6f3ee;
+  --color-inset: #f4f0ea;
 
   /* Ink */
-  --color-ink: #f4f4f8;
-  --color-ink-2: #a5a5b8;
-  --color-ink-3: #71718a;
+  --color-ink: #14120f;
+  --color-ink-2: #56504a;
+  --color-ink-3: #8f887e;
 
   /* Chrome */
-  --color-line: #262633;
-  --color-edge: rgba(255, 255, 255, 0.07);
+  --color-line: #e9e4dc;
+  --color-edge: rgba(20, 18, 15, 0.09);
 
-  /* Validated categorical series (dark surface #15151d) */
-  --color-s1: #8f7ff7; /* violet  — electronics / primary series */
-  --color-s2: #0fa0b5; /* teal    — groceries  */
-  --color-s3: #d95fa4; /* magenta — household  */
-  --color-dim: #43435a; /* de-emphasis mark */
+  /* Validated categorical series (light surface #ffffff) */
+  --color-s1: #c05a2e; /* terracotta — electronics / primary series */
+  --color-s2: #12917a; /* aqua-green — groceries */
+  --color-s3: #8250c8; /* plum       — household */
+  --color-dim: #ddd5c9; /* de-emphasis mark */
 
   /* Status (fixed, never themed) */
-  --color-good: #0ca30c;
+  --color-good: #006300;
   --color-bad: #d03b3b;
 
   /* Non-data UI accents (chrome only, never chart marks) */
-  --color-glow: #3fd0e0;
+  --color-glow: #e2a878;
 }
 
 html {
@@ -44,7 +45,7 @@ body {
 }
 
 ::selection {
-  background: rgba(143, 127, 247, 0.35);
+  background: rgba(192, 90, 46, 0.22);
 }
 
 /* Slim, unobtrusive scrollbars for inner panels */
@@ -53,25 +54,25 @@ body {
   height: 6px;
 }
 .slim-scroll::-webkit-scrollbar-thumb {
-  background: #2c2c3a;
+  background: #d9d1c5;
   border-radius: 999px;
 }
 .slim-scroll {
   scrollbar-width: thin;
-  scrollbar-color: #2c2c3a transparent;
+  scrollbar-color: #d9d1c5 transparent;
 }
 
-/* Card base — hover lift kept subtle */
+/* Card base — white on warm paper, hover lift kept subtle */
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-edge);
-  border-radius: 1.25rem;
+  border-radius: 0.75rem;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .card:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.8);
+  border-color: rgba(20, 18, 15, 0.16);
+  box-shadow: 0 20px 44px -28px rgba(58, 44, 30, 0.28);
 }
 
 :focus-visible {

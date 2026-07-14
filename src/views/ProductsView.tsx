@@ -48,7 +48,7 @@ export default function ProductsView({
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">Products</h1>
+        <h1 className="font-display text-3xl font-light tracking-tight text-ink">Products</h1>
         <p className="text-sm text-ink-3">
           {sorted.length} item{sorted.length === 1 ? '' : 's'} · prices in MVR
         </p>
@@ -70,7 +70,7 @@ export default function ProductsView({
                 {active && (
                   <motion.span
                     layoutId="cat-pill"
-                    className="absolute inset-0 rounded-full bg-s1"
+                    className="absolute inset-0 rounded-full bg-ink"
                     transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                   />
                 )}
@@ -113,7 +113,7 @@ export default function ProductsView({
                 <button
                   onClick={() => setOpen(expanded ? null : p.id)}
                   aria-expanded={expanded}
-                  className="grid w-full grid-cols-[1fr_auto] items-center gap-3 px-5 py-3.5 text-left transition-colors hover:bg-white/[0.02] md:grid-cols-[1fr_110px_130px_110px_110px_36px]"
+                  className="grid w-full grid-cols-[1fr_auto] items-center gap-3 px-5 py-3.5 text-left transition-colors hover:bg-ink/[0.03] md:grid-cols-[1fr_110px_130px_110px_110px_36px]"
                 >
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-medium text-ink">
@@ -157,7 +157,7 @@ export default function ProductsView({
                           <CompareBars product={p} sellerIds={sellerIds} />
                           <button
                             onClick={() => onViewTrend(p.id)}
-                            className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-s1 px-3.5 py-2 text-xs font-semibold text-page transition-transform hover:scale-[1.03] active:scale-95"
+                            className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs font-semibold text-page transition-transform hover:scale-[1.03] active:scale-95"
                           >
                             <TrendingUp size={14} />
                             View price trend

@@ -102,7 +102,7 @@ export default function DonutCard({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.1 }}
-              className="pointer-events-none absolute z-20 rounded-lg border border-edge bg-raised px-2.5 py-1.5 text-xs shadow-lg shadow-black/50"
+              className="pointer-events-none absolute z-20 rounded-lg border border-edge bg-raised px-2.5 py-1.5 text-xs shadow-lg shadow-black/15"
               style={{ left: tip.x + 10, top: tip.y - 10 }}
             >
               <span className="font-semibold text-ink">{mvr(slices.arcs[tip.i].total)}</span>{' '}

@@ -16,7 +16,7 @@ export default function StoresView({ source }: { source: SourceType | 'all' }) {
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">Sellers</h1>
+        <h1 className="font-display text-3xl font-light tracking-tight text-ink">Sellers</h1>
         <p className="text-sm text-ink-3">
           {profiles.length} seller{profiles.length === 1 ? '' : 's'} — shops, websites, Facebook & Instagram
         </p>
@@ -54,7 +54,11 @@ export default function StoresView({ source }: { source: SourceType | 'all' }) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-lg border border-edge px-2 py-1 text-[11px] font-medium text-ink-2 transition-colors hover:border-s1/50 hover:text-ink"
                   >
-                    {p.store.source === 'facebook' ? 'Open Facebook page' : 'Visit website'}
+                    {p.store.source === 'facebook'
+                      ? 'Open Facebook page'
+                      : p.store.source === 'instagram'
+                        ? 'Open Instagram page'
+                        : 'Visit website'}
                     <ExternalLink size={10} className="text-ink-3" />
                   </a>
                 )}
@@ -80,7 +84,7 @@ export default function StoresView({ source }: { source: SourceType | 'all' }) {
                 </div>
                 <div
                   className="relative h-2 overflow-hidden rounded-full"
-                  style={{ background: '#2b2745' }}
+                  style={{ background: '#eeddd0' }}
                   role="meter"
                   aria-valuemin={90}
                   aria-valuemax={110}

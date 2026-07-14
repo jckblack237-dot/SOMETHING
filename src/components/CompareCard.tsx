@@ -47,7 +47,7 @@ export default function CompareCard({
                   <button
                     onClick={() => onSelect(p.id)}
                     aria-pressed={active}
-                    className="relative z-10 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-white/[0.03]"
+                    className="relative z-10 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-ink/[0.03]"
                   >
                     <CategoryDot category={p.category} />
                     <span className="min-w-0 flex-1">
