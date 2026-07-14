@@ -10,6 +10,20 @@ export function sellerCount(product: Product, sellerIds: string[]): number {
   return sellerIds.filter((id) => product.prices[id] != null).length;
 }
 
+/**
+ * Deep link to this product at a seller: the seller's own product search when
+ * the site supports it, a Google site-search otherwise, or the page itself
+ * for social sellers. Undefined when the seller has no online presence.
+ */
+export function listingUrl(store: Store, product: Product): string | undefined {
+  if (!store.url) return undefined;
+  const q = `${product.brand} ${product.name}`;
+  if (store.search) return store.search.replace('{q}', encodeURIComponent(q));
+  if (store.source === 'facebook' || store.source === 'instagram') return store.url;
+  const domain = store.url.replace(/^https?:\/\//, '');
+  return `https://www.google.com/search?q=${encodeURIComponent(`site:${domain} ${q}`)}`;
+}
+
 export interface Saving {
   abs: number;
   pct: number;

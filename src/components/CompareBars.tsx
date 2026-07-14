@@ -3,7 +3,7 @@ import { BadgeCheck, ExternalLink, ShieldCheck } from 'lucide-react';
 import { stores, type Product } from '../data/catalog';
 import { mvr, num, pct } from '../lib/format';
 import { checkedHoursAgo } from '../lib/history';
-import { saving } from '../lib/stats';
+import { listingUrl, saving } from '../lib/stats';
 import { SourceBadge } from './ui';
 
 /**
@@ -58,14 +58,15 @@ export default function CompareBars({ product, sellerIds }: { product: Product; 
             </>
           );
           const rowClass = 'flex items-center gap-2 sm:gap-2.5';
+          const listing = listingUrl(store, product);
           return (
             <li key={store.id}>
-              {store.url ? (
+              {listing ? (
                 <a
-                  href={store.url}
+                  href={listing}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`${store.name}: MVR ${num(price)} — open seller page`}
+                  aria-label={`${store.name}: MVR ${num(price)} — open product listing`}
                   className={`group/row -mx-2 rounded-lg px-2 py-0.5 transition-colors hover:bg-ink/[0.03] ${rowClass}`}
                 >
                   {rowContent}

@@ -3,7 +3,7 @@ import { ChevronRight, ExternalLink, ShoppingBag } from 'lucide-react';
 import { CATEGORY_LABEL, products, type Product } from '../data/catalog';
 import type { Range } from '../lib/history';
 import { mvr, pct } from '../lib/format';
-import { saving } from '../lib/stats';
+import { listingUrl, saving } from '../lib/stats';
 import CompareBars from '../components/CompareBars';
 import PriceTrendCard from '../components/PriceTrendCard';
 import ProductCard from '../components/ProductCard';
@@ -32,6 +32,7 @@ export default function ProductDetail({
   basketIds: string[];
 }) {
   const s = saving(product, sellerIds);
+  const buy = listingUrl(s.bestStore, product);
   const related = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .sort((a, b) => saving(b).pct - saving(a).pct)
@@ -89,9 +90,9 @@ export default function ProductDetail({
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            {s.bestStore.url ? (
+            {buy ? (
               <a
-                href={s.bestStore.url}
+                href={buy}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-[0.15em] text-page transition-transform hover:scale-[1.03] active:scale-95"

@@ -6,6 +6,7 @@ import { avgTrend, currentStats, priceHistory } from './history';
 import {
   bestPriceWins,
   filterProducts,
+  listingUrl,
   marketIndex,
   recentDrops,
   saving,
@@ -149,6 +150,16 @@ describe('stats', () => {
     expect(storesCarrying(products)).toBe(stores.length);
     expect(storesCarrying(products, ['gadgethub'])).toBe(1);
   });
+  it('builds product listing deep links per seller', () => {
+    const led = byId('philips-led4');
+    const by = (id: string) => stores.find((st) => st.id === id)!;
+    expect(listingUrl(by('sonee'), led)).toBe('https://sonee.com.mv/search?q=Philips%20LED%20Bulb%209W%20E27');
+    expect(listingUrl(by('redwave'), led)).toContain('redwave.mv/?s=Philips%20LED%20Bulb');
+    expect(listingUrl(by('esto'), led)).toContain('google.com/search?q=site%3Aesto.mv');
+    expect(listingUrl(by('gadgethub'), led)).toBe('https://facebook.com/gadgethubmv');
+    expect(listingUrl(by('agora'), led)).toBeUndefined();
+  });
+
   it('profiles sellers with a price index around market par', () => {
     const profiles = storeProfiles();
     expect(profiles).toHaveLength(stores.length);

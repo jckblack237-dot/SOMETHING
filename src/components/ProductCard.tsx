@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ExternalLink, ShoppingBag } from 'lucide-react';
 import { CATEGORY_LABEL, type Product } from '../data/catalog';
 import { mvr } from '../lib/format';
-import { saving } from '../lib/stats';
+import { listingUrl, saving } from '../lib/stats';
 import ProductTile from './ProductTile';
 
 /**
@@ -25,6 +25,7 @@ export default function ProductCard({
   index?: number;
 }) {
   const s = saving(product, sellerIds);
+  const buy = listingUrl(s.bestStore, product);
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -68,9 +69,9 @@ export default function ProductCard({
             {basketed ? 'In basket' : 'Add to basket'}
           </button>
         )}
-        {s.bestStore.url && (
+        {buy && (
           <a
-            href={s.bestStore.url}
+            href={buy}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Buy at ${s.bestStore.name}`}

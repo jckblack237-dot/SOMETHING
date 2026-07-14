@@ -13,6 +13,8 @@ export interface Store {
   source: SourceType;
   /** Website or Facebook page, when the seller has one. */
   url?: string;
+  /** Product-search deep-link template with a {q} placeholder, when the site supports it. */
+  search?: string;
 }
 
 export interface Product {
@@ -48,9 +50,9 @@ export const stores: Store[] = [
   // ——— Physical shops (some also sell online) ———
   { id: 'sto', name: 'STO Supermart', short: 'STO', area: 'Malé', tagline: 'State trading staples & appliances', source: 'store', url: 'https://sto.mv' },
   { id: 'agora', name: 'Agora Central', short: 'Agora', area: 'Malé', tagline: 'Neighbourhood supermarket chain', source: 'store' },
-  { id: 'redwave', name: 'Redwave Mega', short: 'Redwave', area: 'Hulhumalé', tagline: 'Big-box groceries & electronics', source: 'store', url: 'https://redwave.mv' },
-  { id: 'villamart', name: 'VillaMart', short: 'Villa', area: 'Malé', tagline: 'Fresh groceries & daily essentials', source: 'store', url: 'https://villamart.mv' },
-  { id: 'sonee', name: 'Sonee Hardware', short: 'Sonee', area: 'Malé', tagline: 'Hardware, tools & home fittings', source: 'store', url: 'https://sonee.com.mv' },
+  { id: 'redwave', name: 'Redwave Mega', short: 'Redwave', area: 'Hulhumalé', tagline: 'Big-box groceries & electronics', source: 'store', url: 'https://redwave.mv', search: 'https://redwave.mv/?s={q}&post_type=product' },
+  { id: 'villamart', name: 'VillaMart', short: 'Villa', area: 'Malé', tagline: 'Fresh groceries & daily essentials', source: 'store', url: 'https://villamart.mv', search: 'https://villamart.mv/search?q={q}' },
+  { id: 'sonee', name: 'Sonee Hardware', short: 'Sonee', area: 'Malé', tagline: 'Hardware, tools & home fittings', source: 'store', url: 'https://sonee.com.mv', search: 'https://sonee.com.mv/search?q={q}' },
   { id: 'damas', name: 'Damas Electronics', short: 'Damas', area: 'Malé', tagline: 'Phones, audio & home tech', source: 'store', url: 'https://damas.mv' },
   // ——— Shopping websites ———
   { id: 'esto', name: 'eSTO.mv', short: 'eSTO', area: 'Online', tagline: 'STO’s official online store', source: 'online', url: 'https://esto.mv' },
