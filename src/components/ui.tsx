@@ -10,6 +10,21 @@ export const CATEGORY_COLOR: Record<Category, string> = {
   household: 'var(--color-s3)',
 };
 
+export const CATEGORY_OPTIONS: { value: Category | 'all'; label: string }[] = [
+  { value: 'all', label: 'All categories' },
+  { value: 'electronics', label: 'Electronics' },
+  { value: 'groceries', label: 'Groceries' },
+  { value: 'household', label: 'Household' },
+];
+
+export const SOURCE_OPTIONS: { value: SourceType | 'all'; label: string }[] = [
+  { value: 'all', label: 'All sellers' },
+  { value: 'store', label: 'In-store' },
+  { value: 'online', label: 'Online shops' },
+  { value: 'facebook', label: 'Facebook pages' },
+  { value: 'instagram', label: 'Instagram pages' },
+];
+
 const SOURCE_ICON: Record<SourceType, typeof Globe> = {
   store: StoreIcon,
   online: Globe,

@@ -9,33 +9,23 @@ Rufiyaa (MVR).
 
 ## Features
 
-- **Landing page** — dark, editorial front door in the style of premium
-  Framer templates: full-height hero with a live comparison preview,
-  numbered sections, seller showcase, animated stats, reviews and an FAQ
-  accordion, all with scroll-triggered reveals.
-- **Overview dashboard** — KPI stat tiles with sparklines (products tracked,
-  average saving, price drops, market price index), per-store price comparison
-  bars with the best price highlighted, a saving-headroom donut (click a slice
-  to filter by category), and a lowest/average/highest price trend chart with a
-  hover crosshair, keyboard navigation and Week/Month/Year ranges.
-- **Products** — sortable catalog (biggest saving / lowest price / name) with
-  category chips; every row expands into a full store-by-store comparison.
-- **Stores** — profiles for each store with a price index meter (vs. market
-  average), best-price wins and what it's cheapest for.
+- **Shop-style experience** — storefront homepage (hero, category tiles,
+  best-deals grid, reviews, FAQ), a product-card catalog with category
+  chips, seller-type filter and sorting, and full product pages with
+  breadcrumbs, sale badges and related products.
 - **Every kind of seller** — physical shops, shopping websites, Facebook and
-  Instagram pages are compared side by side, each tagged with a source badge
-  and a direct link to the seller's website or page.
+  Instagram pages compared side by side on every product page, with source
+  badges and direct links to each seller.
 - **Social cross-checking** — every comparison lists which Facebook and
   Instagram listings the price was verified against, with last-checked
-  stamps and links to each listing.
-- **Live filtering** — global search plus category and seller-type filters
-  (in-store / online shops / Facebook pages / Instagram pages) re-scope every
-  chart, stat and list on the page.
-- **Seamless transitions** — preloader splash, animated view switches, sliding
-  nav and toggle pills, spring-animated numbers, bars and expanding rows, with
-  `prefers-reduced-motion` support.
-- **Accessible charts** — colorblind-validated palette, table view for every
-  chart, keyboard-navigable trend chart, values never gated behind tooltips.
+  stamps and links.
+- **Market insights** — KPI tiles with sparklines, a saving-headroom donut,
+  lowest/average/highest price-trend charts with crosshair, keyboard
+  navigation and table views, and a best-price-wins chart, all scoped by
+  category and seller-type filters.
+- **Warm boho design** — Catamaran + Montserrat typography, white cards on
+  warm paper, black pill buttons, and a colorblind-validated terracotta /
+  aqua-green / plum chart palette.
 
 ## Sellers tracked
 

@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 import { CalendarDays } from 'lucide-react';
-import type { Category, Product } from '../data/catalog';
+import type { Category, Product, SourceType } from '../data/catalog';
 import type { Range } from '../lib/history';
 import { dropsTrend, marketIndex, recentDrops, savingsTrend, storesCarrying } from '../lib/stats';
 import { num, pct } from '../lib/format';
+import { CATEGORY_OPTIONS, Dropdown, SOURCE_OPTIONS } from '../components/ui';
 import StatTile, { type StatTileProps } from '../components/StatTile';
 import CompareCard from '../components/CompareCard';
 import DonutCard from '../components/DonutCard';
@@ -34,6 +35,8 @@ export default function Overview({
   onRange,
   category,
   onCategory,
+  source,
+  onSource,
 }: {
   products: Product[];
   sellerIds: string[];
@@ -43,6 +46,8 @@ export default function Overview({
   onRange: (r: Range) => void;
   category: Category | 'all';
   onCategory: (c: Category | 'all') => void;
+  source: SourceType | 'all';
+  onSource: (s: SourceType | 'all') => void;
 }) {
   const tiles = useMemo<StatTileProps[]>(() => {
     if (products.length === 0) return [];
@@ -100,11 +105,15 @@ export default function Overview({
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-display text-3xl font-light tracking-tight text-ink">Dashboard</h1>
-        <span className="flex items-center gap-2 rounded-xl border border-edge bg-surface px-3.5 py-2 text-xs text-ink-2">
-          <CalendarDays size={14} className="text-ink-3" />
-          {dateChip()}
-        </span>
+        <h1 className="font-display text-3xl font-light tracking-tight text-ink">Market insights</h1>
+        <div className="flex flex-wrap items-center gap-2">
+          <Dropdown value={category} options={CATEGORY_OPTIONS} onChange={onCategory} label="Filter by category" />
+          <Dropdown value={source} options={SOURCE_OPTIONS} onChange={onSource} label="Filter by seller type" />
+          <span className="flex items-center gap-2 rounded-xl border border-edge bg-surface px-3.5 py-2 text-xs text-ink-2">
+            <CalendarDays size={14} className="text-ink-3" />
+            {dateChip()}
+          </span>
+        </div>
       </div>
 
       {tiles.length > 0 && (
